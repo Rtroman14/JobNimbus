@@ -1,5 +1,8 @@
 require("dotenv").config();
 
+const AirtableApi = require("../src/api/Airtable");
+const Airtable = new AirtableApi(process.env.AIRTABLE_API);
+
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
         return {
@@ -7,13 +10,15 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        const res = JSON.parse(event.body);
+        const { recordID, baseID } = JSON.parse(event.body);
 
-        console.log(res);
+        const contact = await Airtable.getContact(baseID, recordID);
+
+        // push contact to jobnimbus
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ res }),
+            body: JSON.stringify({ contact }),
         };
     } else {
         return {
