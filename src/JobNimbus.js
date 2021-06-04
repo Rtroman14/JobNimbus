@@ -1,4 +1,4 @@
-require("dotenv").config();
+1require("dotenv").config();
 
 const axios = require("axios");
 
