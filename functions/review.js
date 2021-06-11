@@ -3,6 +3,9 @@ require("dotenv").config();
 const JobNimbusApi = require("../src/api/JobNimbus");
 const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
+const HighlevelApi = require("../src/api/Highlevel");
+const Highlevel = new HighlevelApi(process.env.HIGHLEVEL_KEY);
+
 const { makeHighlevelContact } = require("../src/helpers");
 
 exports.handler = async (event) => {

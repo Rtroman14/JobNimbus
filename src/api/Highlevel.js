@@ -4,6 +4,10 @@ const axios = require("axios");
 
 module.exports = class Highlevel {
     constructor(token) {
+        if (!token) {
+            throw new Error("Using Airtable requires an API key.");
+        }
+
         this.token = token;
     }
 
