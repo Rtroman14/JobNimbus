@@ -14,6 +14,8 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const { jnid, related } = JSON.parse(event.body);
 
+        console.log(JSON.parse(event.body));
+
         const campaignID = "IsujRiyMNv0fmRF698D1";
 
         // get contact associated with job
