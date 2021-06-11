@@ -1,5 +1,8 @@
 require("dotenv").config();
 
+const JobNimbusApi = require("../src/api/JobNimbus");
+const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
+
 const { makeHighlevelContact } = require("../src/helpers");
 
 exports.handler = async (event) => {
@@ -18,12 +21,12 @@ exports.handler = async (event) => {
         const highLevelContact = makeHighlevelContact(contact);
 
         const outreachResponse = await Highlevel.outreachContact(highLevelContact, campaignID);
-        console.log(outreachResponse);
+        console.log({ outreachResponse });
 
         // add note on job
         const note = `Sent ${related[0].name} a review request.`;
         const noteResponse = await JobNimbus.createNote(jnid, note);
-        console.log(noteResponse);
+        console.log({ noteResponse });
 
         return {
             statusCode: 200,
