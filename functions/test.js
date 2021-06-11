@@ -9,8 +9,7 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
 
-        console.log({ event });
-        console.log({ res });
+        console.log(res);
 
         return {
             statusCode: 200,
