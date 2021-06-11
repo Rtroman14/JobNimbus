@@ -2,17 +2,17 @@ require("dotenv").config();
 
 const axios = require("axios");
 
-module.exports = class JobNimbus {
+module.exports = class JobNimbusApi {
     constructor(token) {
         this.token = token;
     }
 
-    getConfig(method, slug, data) {
+    getConfig(method, url, data) {
         try {
             if (data) {
                 return {
                     method,
-                    url: `https://app.jobnimbus.com/api1/${slug}`,
+                    url: `https://app.jobnimbus.com/api1/${url}`,
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ module.exports = class JobNimbus {
 
             return {
                 method,
-                url,
+                url: `https://app.jobnimbus.com/api1/${url}`,
                 headers: {
                     Authorization: `Bearer ${this.token}`,
                     "Content-Type": "application/json",
@@ -38,23 +38,53 @@ module.exports = class JobNimbus {
         try {
             const config = this.getConfig("get", "contacts");
 
-            const res = await axios(config);
+            const { data } = await axios(config);
 
-            return res.data.results;
+            return data.results;
         } catch (error) {
             console.log("ERROR CREATECONTACT ---", error);
         }
     }
 
-    async contact(data) {
+    async getContact(id) {
         try {
-            const config = this.getConfig("post", "contacts", data);
+            const config = this.getConfig("get", `contacts/${id}`);
 
-            const res = await axios(config);
+            const { data } = await axios(config);
 
-            return res.data.results;
+            return data;
+        } catch (error) {
+            console.log("ERROR GETCONTACT ---", error);
+        }
+    }
+
+    async createContact(contact) {
+        try {
+            const config = this.getConfig("post", "contacts", contact);
+
+            const { data } = await axios(config);
+
+            return data;
         } catch (error) {
             console.log("ERROR CREATECONTACT ---", error);
+        }
+    }
+
+    async createNote(id, note) {
+        try {
+            const config = this.getConfig("post", "activities", {
+                note,
+                record_type_name: "Note",
+                primary: {
+                    id,
+                },
+            });
+
+            const { data } = await axios(config);
+
+            return data;
+        } catch (error) {
+            console.log("ERROR CREATENOTE ---", error);
         }
     }
 };
