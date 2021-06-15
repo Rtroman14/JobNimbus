@@ -14,7 +14,7 @@ const zip = require("./src/api/zip");
 
 (async () => {
     try {
-        // const contact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec0LXC2e3sGQwprk");
+        // const contact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec3lbsoU9PyIp55V");
         // console.log(contact);
         // const jnContact = {
         //     // location: ,
@@ -37,6 +37,20 @@ const zip = require("./src/api/zip");
         // let { city, state } = res;
         // city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
         // console.log(city);
+        // const jnContacts = await JobNimbus.contacts();
+        // console.log(jnContacts);
+
+        const { data } = await axios.get(
+            "https://app.jobnimbus.com/api1/contacts?display_name=Kenny+Williams",
+            {
+                headers: {
+                    Authorization: "bearer ",
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        console.log(data);
     } catch (error) {
         console.log(error.message);
     }
