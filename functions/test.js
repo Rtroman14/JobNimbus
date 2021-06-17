@@ -6,7 +6,8 @@ exports.handler = async (event) => {
         console.log(event);
 
         console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
-        console.log("\nevent.rawQuery -->", event.rawQuery);
+        // https://jobnimbus.netlify.app/.netlify/functions/test?client=eco-tec
+        // event.queryStringParameters --> { client: 'eco-tec' }
 
         return {
             statusCode: 200,
@@ -15,7 +16,11 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
 
-        console.log(res);
+        // console.log(res);
+
+        console.log("\nEVENT -->", event);
+        console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
+        console.log("\nevent.queryStringParameters.client -->", event.queryStringParameters.client);
 
         return {
             statusCode: 200,
