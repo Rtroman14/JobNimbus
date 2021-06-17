@@ -37,8 +37,6 @@ const clients = require("./src/clients");
         const jobFields = { ...baseJob, ...additionalJobFields };
         const jnJob = await JobNimbus.createJob(jobFields);
         console.log(jnJob);
-
-        // create note to notify stacy
     } catch (error) {
         console.log(error.message);
     }

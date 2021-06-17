@@ -1,15 +1,15 @@
 require("dotenv").config();
 
-const AirtableApi = require("../../../src/api/Airtable");
+const AirtableApi = require("../src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
-const JobNimbusApi = require("../../../src/api/JobNimbus");
+const JobNimbusApi = require("../src/api/JobNimbus");
 const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
-const HelperApi = require("../../../src/Helper");
+const HelperApi = require("../src/Helper");
 const Helper = new HelperApi();
 
-const clients = require("../../../src/clients");
+const clients = require("../src/clients");
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -19,6 +19,8 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         const { recordID, baseID } = JSON.parse(event.body);
+        const { client } = event.queryStringParameters;
+        console.log({ client });
 
         const contact = await Airtable.getContact(baseID, recordID);
 
