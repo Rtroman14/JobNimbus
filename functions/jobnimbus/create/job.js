@@ -1,23 +1,26 @@
 require("dotenv").config();
 
-const axios = require("axios");
-
-const AirtableApi = require("./src/api/Airtable");
+const AirtableApi = require("../../../src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
-const JobNimbusApi = require("./src/api/JobNimbus");
+const JobNimbusApi = require("../../../src/api/JobNimbus");
 const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
-const HelperApi = require("./src/Helper");
+const HelperApi = require("../../../src/Helper");
 const Helper = new HelperApi();
 
-const clients = require("./src/clients");
+const clients = require("../../../src/clients");
 
-(async () => {
-    try {
-        const client = "eco-tec";
+exports.handler = async (event) => {
+    if (event.httpMethod === "GET") {
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ msg: "POST request only" }),
+        };
+    } else if (event.httpMethod === "POST") {
+        const { recordID, baseID } = JSON.parse(event.body);
 
-        let contact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec3lbsoU9PyIp55V");
+        const contact = await Airtable.getContact(baseID, recordID);
 
         if (!("Street" in contact)) {
             address = await Helper.getAddress(contact.Address);
@@ -38,10 +41,14 @@ const clients = require("./src/clients");
         const jnJob = await JobNimbus.createJob(jobFields);
         console.log(jnJob);
 
-        // create note to notify stacy
-    } catch (error) {
-        console.log(error.message);
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ contact }),
+        };
+    } else {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ msg: "Error" }),
+        };
     }
-})();
-
-// https://documenter.getpostman.com/view/3919598/S11PpG4x?version=latest#7ec1541f-7241-4840-9322-0ed83c01d48e
+};

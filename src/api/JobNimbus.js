@@ -74,6 +74,18 @@ module.exports = class JobNimbusApi {
         }
     }
 
+    async createJob(job) {
+        try {
+            const config = this.getConfig("post", "jobs", job);
+
+            const { data } = await axios(config);
+
+            return data;
+        } catch (error) {
+            console.log("ERROR CREATEJOB ---", error);
+        }
+    }
+
     async createNote(id, note) {
         try {
             const config = this.getConfig("post", "activities", {
@@ -90,5 +102,37 @@ module.exports = class JobNimbusApi {
         } catch (error) {
             console.log("ERROR CREATENOTE ---", error);
         }
+    }
+
+    baseContact(contact) {
+        return {
+            display_name: contact["Full Name"],
+            first_name: contact["First Name"],
+            last_name: contact["Last Name"],
+            company: contact["Company Name"] || "",
+            email: contact.Email || "",
+            mobile_phone: contact["Phone Number"] || "",
+            address_line1: contact.Street || "",
+            city: contact.City || "",
+            state_text: contact.State || "",
+            zip: contact.Zip || "",
+            description: contact.Notes || "",
+        };
+    }
+
+    baseJob(jnContact) {
+        return {
+            name: jnContact.address_line1,
+            record_type_name: "Job",
+            status_name: "Lead",
+            primary: {
+                id: jnContact.jnid,
+            },
+            // address
+            address_line1: jnContact.address_line1,
+            city: jnContact.city,
+            state_text: jnContact.state_text,
+            zip: jnContact.zip,
+        };
     }
 };

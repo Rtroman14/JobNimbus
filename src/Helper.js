@@ -10,10 +10,10 @@ module.exports = class HelperApi {
             const streetIndex = address.toLowerCase().lastIndexOf(city.toLowerCase());
 
             return {
-                street: address.slice(0, streetIndex).trim(),
-                city: city.charAt(0).toUpperCase() + city.slice(1).toLowerCase(),
-                state,
-                zip,
+                Street: address.slice(0, streetIndex).trim(),
+                City: city.charAt(0).toUpperCase() + city.slice(1).toLowerCase(),
+                State: state,
+                Zip: zip,
             };
         } catch (error) {
             console.log("ERROR GETTING ADDRESS ---", error.message);
