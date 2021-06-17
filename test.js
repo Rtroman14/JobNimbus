@@ -37,6 +37,13 @@ const clients = require("./src/clients");
         const jobFields = { ...baseJob, ...additionalJobFields };
         const jnJob = await JobNimbus.createJob(jobFields);
         console.log(jnJob);
+
+        // create note
+        // const assistant = clients(client, contact);
+        const note = await JobNimbus.createNote(
+            jnJob.jnid,
+            "@RyanRoman New lead! Please see description."
+        );
     } catch (error) {
         console.log(error.message);
     }

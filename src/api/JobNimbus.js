@@ -125,6 +125,7 @@ module.exports = class JobNimbusApi {
             name: jnContact.address_line1,
             record_type_name: "Job",
             status_name: "Lead",
+            description: jnContact.description,
             primary: {
                 id: jnContact.jnid,
             },

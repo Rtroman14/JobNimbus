@@ -7,6 +7,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
+                Service: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
                 sales_rep_name: "Ryan Roman",
                 owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
@@ -19,7 +20,17 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // Eco Tec Foam And Coatings
             },
-            teamMembers: [{}],
+            team: [
+                {
+                    name: "Ryan Roman",
+                    id: "kpwrz7poastl1hfqz2o6yix",
+                },
+                {
+                    name: "Chris Pendergast",
+                    id: "",
+                },
+            ],
+            salesReps: [{}],
         },
     ];
 

@@ -33,7 +33,7 @@ exports.handler = async (event) => {
         const { additionalContactFields } = clients(client, contact);
         const contactFields = { ...baseContact, ...additionalContactFields };
         const jnContact = await JobNimbus.createContact(contactFields);
-        console.log("Created new contact:", jnContact.display_name);
+        console.log("\nCreated new contact:", jnContact.display_name);
 
         // create job
         const baseJob = JobNimbus.baseJob(jnContact);
@@ -41,6 +41,8 @@ exports.handler = async (event) => {
         const jobFields = { ...baseJob, ...additionalJobFields };
         const jnJob = await JobNimbus.createJob(jobFields);
         console.log("Created new job:", jnJob.name);
+
+        // create note
 
         return {
             statusCode: 200,
