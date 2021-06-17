@@ -8,9 +8,11 @@ module.exports = class HelperApi {
             const { city, state } = await this.getZip(zip);
 
             const streetIndex = address.toLowerCase().lastIndexOf(city.toLowerCase());
+            let street = address.slice(0, streetIndex).trim();
+            street = street = street.slice(-1) === "," ? street.slice(0, -1) : street;
 
             return {
-                Street: address.slice(0, streetIndex).trim(),
+                Street: street,
                 City: city.charAt(0).toUpperCase() + city.slice(1).toLowerCase(),
                 State: state,
                 Zip: zip,

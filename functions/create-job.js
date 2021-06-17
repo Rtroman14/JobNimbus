@@ -33,18 +33,18 @@ exports.handler = async (event) => {
         const { additionalContactFields } = clients(client, contact);
         const contactFields = { ...baseContact, ...additionalContactFields };
         const jnContact = await JobNimbus.createContact(contactFields);
-        console.log("Created new contact: ", jnContact.jnid);
+        console.log("Created new contact:", jnContact.display_name);
 
         // create job
         const baseJob = JobNimbus.baseJob(jnContact);
         const { additionalJobFields } = clients(client);
         const jobFields = { ...baseJob, ...additionalJobFields };
         const jnJob = await JobNimbus.createJob(jobFields);
-        console.log(jnJob);
+        console.log("Created new job:", jnJob.name);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ contact }),
+            body: JSON.stringify({ jnJob }),
         };
     } else {
         return {
