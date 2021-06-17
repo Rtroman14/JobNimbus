@@ -16,6 +16,12 @@ exports.handler = async (event) => {
         // IMPORTANT - https://stackoverflow.com/questions/67994353/how-to-use-request-parameters-in-query-string-to-retrieve-jobnimbus-contacts
 
         // format airtable --> jobnimbus contact
+        if ("Street" in airtableContact) {
+            console.log("TRUEEE");
+        } else {
+            console.log("FALSEEE");
+        }
+
         const jnContact = {
             // location: ,
             display_name: contact["Full Name"],

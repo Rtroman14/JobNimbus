@@ -8,14 +8,25 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 const JobNimbusApi = require("./src/api/JobNimbus");
 const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
-const { makeHighlevelContact } = require("./src/helpers");
-
-const zip = require("./src/api/zip");
+const HelperApi = require("./src/Helper");
+const Helper = new HelperApi();
 
 (async () => {
     try {
-        // const contact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec3lbsoU9PyIp55V");
-        // console.log(contact);
+        let airtableContact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec3lbsoU9PyIp55V");
+        console.log(airtableContact);
+
+        // format airtable --> jobnimbus contact
+        if ("Street" in airtableContact) {
+            console.log("TRUEEE");
+        } else {
+            console.log("FALSEEE");
+            const address = await Helper.getAddress(airtableContact.Address);
+            airtableContact = { ...airtableContact, ...address };
+        }
+
+        console.log(airtableContact);
+
         // const jnContact = {
         //     // location: ,
         //     display_name: contact["Full Name"],
@@ -30,27 +41,6 @@ const zip = require("./src/api/zip");
         //     state_text: "IL",
         //     zip: contact.Address.split(" ").pop(),
         // };
-        // console.log(jnContact);
-        // const newContact = await JobNimbus.createContact(jnContact);
-        // console.log(newContact);
-        // const res = await zip("54467");
-        // let { city, state } = res;
-        // city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
-        // console.log(city);
-        // const jnContacts = await JobNimbus.contacts();
-        // console.log(jnContacts);
-
-        const { data } = await axios.get(
-            "https://app.jobnimbus.com/api1/contacts?display_name=Kenny+Williams",
-            {
-                headers: {
-                    Authorization: "bearer ",
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        console.log(data);
     } catch (error) {
         console.log(error.message);
     }
