@@ -6,7 +6,8 @@ const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 const HighlevelApi = require("../src/api/Highlevel");
 const Highlevel = new HighlevelApi(process.env.HIGHLEVEL_KEY);
 
-const { makeHighlevelContact } = require("../src/helpers");
+const HelperApi = require("../src/Helper");
+const Helper = new HelperApi();
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -23,7 +24,7 @@ exports.handler = async (event) => {
 
         // get contact associated with job
         const contact = await JobNimbus.getContact(related[0].id);
-        const highLevelContact = makeHighlevelContact(contact);
+        const highLevelContact = Helper.makeHighlevelContact(contact);
 
         const outreachResponse = await Highlevel.outreachContact(highLevelContact, campaignID);
         console.log({ outreachResponse });
