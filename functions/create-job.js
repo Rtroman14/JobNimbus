@@ -43,6 +43,11 @@ exports.handler = async (event) => {
         console.log("Created new job:", jnJob.name);
 
         // create note
+        // const assistant = clients(client, contact);
+        const note = await JobNimbus.createNote(
+            jnJob.jnid,
+            "@RyanRoman New lead! Please see description."
+        );
 
         return {
             statusCode: 200,
