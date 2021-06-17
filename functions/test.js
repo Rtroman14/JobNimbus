@@ -5,7 +5,8 @@ exports.handler = async (event) => {
         console.log("EVENT");
         console.log(event);
 
-        console.log("\nevent.QueryStringParameters -->", event.QueryStringParameters);
+        console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
+        console.log("\nevent.rawQuery -->", event.rawQuery);
 
         return {
             statusCode: 200,
