@@ -16,11 +16,9 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
 
-        // console.log(res);
-
-        console.log("\nEVENT -->", event);
-        console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
         console.log("\nevent.queryStringParameters.client -->", event.queryStringParameters.client);
+        const { client } = event.queryStringParameters;
+        console.log({ client });
 
         return {
             statusCode: 200,
