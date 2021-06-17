@@ -20,12 +20,11 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const { recordID, baseID } = JSON.parse(event.body);
         const { client } = event.queryStringParameters;
-        console.log({ client });
 
         const contact = await Airtable.getContact(baseID, recordID);
 
         if (!("Street" in contact)) {
-            address = await Helper.getAddress(contact.Address);
+            const address = await Helper.getAddress(contact.Address);
             contact = { ...contact, ...address };
         }
 

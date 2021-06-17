@@ -20,7 +20,7 @@ const clients = require("./src/clients");
         let contact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec3lbsoU9PyIp55V");
 
         if (!("Street" in contact)) {
-            address = await Helper.getAddress(contact.Address);
+            const address = await Helper.getAddress(contact.Address);
             contact = { ...contact, ...address };
         }
 
