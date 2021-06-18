@@ -9,11 +9,13 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
 
-        console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
+        const { queryStringParameters } = event;
+
+        console.log("\n ueryStringParameters -->", queryStringParameters);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ res }),
+            body: JSON.stringify({ queryStringParameters }),
         };
     } else {
         return {
