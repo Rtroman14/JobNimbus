@@ -11,7 +11,7 @@ exports.handler = async (event) => {
 
         const { queryStringParameters } = event;
 
-        console.log("\n ueryStringParameters -->", queryStringParameters);
+        console.log(res);
 
         return {
             statusCode: 200,
