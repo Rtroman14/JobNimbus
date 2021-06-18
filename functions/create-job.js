@@ -33,7 +33,7 @@ exports.handler = async (event) => {
         const { additionalContactFields } = clients(client, contact);
         const contactFields = { ...baseContact, ...additionalContactFields };
         const jnContact = await JobNimbus.createContact(contactFields);
-        console.log("\nCreated new contact:", jnContact.display_name);
+        console.log("Created new contact:", jnContact.display_name);
 
         // create job
         const baseJob = JobNimbus.baseJob(jnContact);
