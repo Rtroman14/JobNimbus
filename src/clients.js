@@ -30,7 +30,9 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                     id: "",
                 },
             ],
-            salesReps: [{}],
+            notes: {
+                addLead: "@RyanRoman New lead! Please see description.",
+            },
         },
     ];
 

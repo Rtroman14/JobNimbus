@@ -15,35 +15,7 @@ const clients = require("./src/clients");
 
 (async () => {
     try {
-        const client = "eco-tec";
-
-        let contact = await Airtable.getContact("appoNqmB15dMPPEXD", "rec3lbsoU9PyIp55V");
-
-        if (!("Street" in contact)) {
-            const address = await Helper.getAddress(contact.Address);
-            contact = { ...contact, ...address };
-        }
-
-        // create contact
-        const baseContact = JobNimbus.baseContact(contact);
-        const { additionalContactFields } = clients(client, contact);
-        const contactFields = { ...baseContact, ...additionalContactFields };
-        const jnContact = await JobNimbus.createContact(contactFields);
-        console.log("Created new contact: ", jnContact.jnid);
-
-        // create job
-        const baseJob = JobNimbus.baseJob(jnContact);
-        const { additionalJobFields } = clients(client);
-        const jobFields = { ...baseJob, ...additionalJobFields };
-        const jnJob = await JobNimbus.createJob(jobFields);
-        console.log(jnJob);
-
-        // create note
-        // const assistant = clients(client, contact);
-        const note = await JobNimbus.createNote(
-            jnJob.jnid,
-            "@RyanRoman New lead! Please see description."
-        );
+        const url = "https://jobnimbus.netlify.app/.netlify/functions/create-job?client=eco-tec";
     } catch (error) {
         console.log(error.message);
     }

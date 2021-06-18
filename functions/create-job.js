@@ -21,6 +21,8 @@ exports.handler = async (event) => {
         const { recordID, baseID } = JSON.parse(event.body);
         const { client } = event.queryStringParameters;
 
+        const { additionalContactFields, additionalJobFields, notes } = clients(client, contact);
+
         let contact = await Airtable.getContact(baseID, recordID);
 
         if (!("Street" in contact)) {
@@ -30,24 +32,18 @@ exports.handler = async (event) => {
 
         // create contact
         const baseContact = JobNimbus.baseContact(contact);
-        const { additionalContactFields } = clients(client, contact);
         const contactFields = { ...baseContact, ...additionalContactFields };
         const jnContact = await JobNimbus.createContact(contactFields);
         console.log("Created new contact:", jnContact.display_name);
 
         // create job
         const baseJob = JobNimbus.baseJob(jnContact);
-        const { additionalJobFields } = clients(client);
         const jobFields = { ...baseJob, ...additionalJobFields };
         const jnJob = await JobNimbus.createJob(jobFields);
         console.log("Created new job:", jnJob.name);
 
         // create note
-        // const assistant = clients(client, contact);
-        const note = await JobNimbus.createNote(
-            jnJob.jnid,
-            "@RyanRoman New lead! Please see description."
-        );
+        const note = await JobNimbus.createNote(jnJob.jnid, notes.addLead);
 
         return {
             statusCode: 200,

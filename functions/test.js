@@ -2,13 +2,6 @@ require("dotenv").config();
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
-        console.log("EVENT");
-        console.log(event);
-
-        console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
-        // https://jobnimbus.netlify.app/.netlify/functions/test?client=eco-tec
-        // event.queryStringParameters --> { client: 'eco-tec' }
-
         return {
             statusCode: 200,
             body: JSON.stringify({ msg: "POST request only" }),
@@ -16,9 +9,7 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
 
-        console.log("\nevent.queryStringParameters.client -->", event.queryStringParameters.client);
-        const { client } = event.queryStringParameters;
-        console.log({ client });
+        console.log("\nevent.queryStringParameters -->", event.queryStringParameters);
 
         return {
             statusCode: 200,
