@@ -5,6 +5,9 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const JobNimbusApi = require("../src/api/JobNimbus");
 
+const HelperApi = require("../src/Helper");
+const Helper = new HelperApi();
+
 const clients = require("../src/clients");
 
 // IMPORTANT: must have "client" and "note" query params. "mention" is optional
@@ -16,6 +19,7 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         // NOTE: owners === "Assigned To"
+        let res = JSON.parse(event.body);
         let { jnid, sales_rep_name, type, related } = JSON.parse(event.body);
         let { client, mention, note } = event.queryStringParameters;
 
@@ -28,6 +32,8 @@ exports.handler = async (event) => {
             if (related.length > 0) {
                 jnid = related[0].id;
             }
+
+            note = Helper.stringVars(res, note);
         }
 
         if (mention) {
@@ -37,7 +43,7 @@ exports.handler = async (event) => {
         }
 
         const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
-        const message = `Created note: ${createdNote.note} for client: ${client}`;
+        const message = `\nClient: ${client} \nNote: ${createdNote.note}`;
         console.log(message);
 
         return {

@@ -53,4 +53,17 @@ module.exports = class HelperApi {
             postalCode: contact.zip || "",
         };
     }
+
+    stringVars(res, note) {
+        return note
+            .split(" ")
+            .map((word) => {
+                if (word.includes("{{") && word.includes("}}")) {
+                    let variable = word.replace("{{", "").replace("}}", "");
+                    return res[variable];
+                }
+                return word;
+            })
+            .join(" ");
+    }
 };

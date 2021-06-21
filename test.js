@@ -42,6 +42,17 @@ const clients = require("./src/clients");
         //     .map((mention) => mention.replace(" ", ""))
         //     .join(" @");
         // console.log(mentions);
+
+        const jnid = {
+            jnid: "123jvohsef",
+            title: "Task Title",
+        };
+
+        const note =
+            "Did the task: {{title}} happen? It has been two days overdue and has not been marked as complete.";
+
+        const newNote = Helper.stringVars(jnid, note);
+        console.log(newNote);
     } catch (error) {
         console.log(error.message);
     }
