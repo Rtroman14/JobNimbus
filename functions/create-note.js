@@ -7,6 +7,7 @@ const JobNimbusApi = require("../src/api/JobNimbus");
 
 const clients = require("../src/clients");
 
+// IMPORTANT: must have "client" and "note" query params. "mention" is optional
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
         return {
@@ -18,7 +19,6 @@ exports.handler = async (event) => {
         const { jnid, sales_rep_name } = JSON.parse(event.body);
         let { client, mention, note } = event.queryStringParameters;
 
-        // TODO: get client's Airtable API key
         const campaigns = await Airtable.getCampaigns("JobNimbus Accounts", "Accounts");
         const campaign = campaigns.find((campaign) => campaign.Client === client);
 
@@ -27,15 +27,16 @@ exports.handler = async (event) => {
         if (mention) {
             mention = `@${mention.replace(" ", "")}`;
         } else {
-            mention = `@${sales_rep_name.replace(" ", "")}`;
+            mention = `@${sales_rep_name.replace(" ", "")}` || "";
         }
 
         const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
-        console.log(createdNote);
+        const message = `Created note: ${createdNote.note} for client: ${client}`;
+        console.log(message);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ queryStringParameters: event.queryStringParameters }),
+            body: JSON.stringify({ message }),
         };
     } else {
         return {
