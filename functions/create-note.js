@@ -16,13 +16,19 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         // NOTE: owners === "Assigned To"
-        const { jnid, sales_rep_name } = JSON.parse(event.body);
+        let { jnid, sales_rep_name, type, related } = JSON.parse(event.body);
         let { client, mention, note } = event.queryStringParameters;
 
         const campaigns = await Airtable.getCampaigns("JobNimbus Accounts", "Accounts");
         const campaign = campaigns.find((campaign) => campaign.Client === client);
 
         const JobNimbus = new JobNimbusApi(campaign["JobNimbus API Key"]);
+
+        if (type === "task") {
+            if (related.length > 0) {
+                jnid = related[0].id;
+            }
+        }
 
         if (mention) {
             mention = `@${mention.replace(" ", "")}`;
