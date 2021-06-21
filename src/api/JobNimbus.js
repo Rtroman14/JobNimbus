@@ -90,7 +90,7 @@ module.exports = class JobNimbusApi {
         try {
             const config = this.getConfig("post", "activities", {
                 note,
-                record_type_name: "Summa Note",
+                record_type_name: "Note",
                 primary: {
                     id,
                 },

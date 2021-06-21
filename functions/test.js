@@ -9,6 +9,8 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
 
+        const { client } = event.queryStringParameters;
+
         const { queryStringParameters } = event;
 
         console.log(res);

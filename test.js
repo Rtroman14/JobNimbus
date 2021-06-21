@@ -15,7 +15,35 @@ const clients = require("./src/clients");
 
 (async () => {
     try {
-        const url = "https://jobnimbus.netlify.app/.netlify/functions/create-job?client=eco-tec";
+        const { jnid, sales_rep_name, owners } = {
+            jnid: "123",
+            // sales_rep_name: null,
+            sales_rep_name: "Ryan Roman",
+            owners: [
+                {
+                    id: "3vlshr",
+                    email: "chrispendergast21@gmail.com",
+                    name: "Chris Pendergast",
+                },
+                {
+                    id: "kpwrz7poastl1hfqz2o6yix",
+                    email: "Rtroman14@gmail.com",
+                    name: "Ryan Roman",
+                },
+            ],
+            // owners: [],
+        };
+
+        // formate @mention
+        let mentions = owners.length > 0 ? owners.map((owner) => owner.name) : [];
+        sales_rep_name !== null && mentions.push(sales_rep_name);
+        mentions = [...new Set(mentions)];
+        mentions = mentions
+            .unshift("@")
+            .map((mention) => mention.replace(" ", ""))
+            .join(" @");
+
+        console.log(mentions);
     } catch (error) {
         console.log(error.message);
     }
