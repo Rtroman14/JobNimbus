@@ -32,8 +32,6 @@ exports.handler = async (event) => {
             if (related.length > 0) {
                 jnid = related[0].id;
             }
-
-            note = Helper.stringVars(res, note);
         }
 
         if (mention) {
@@ -41,6 +39,8 @@ exports.handler = async (event) => {
         } else {
             mention = `@${sales_rep_name.replace(" ", "")}` || "";
         }
+
+        note = Helper.stringVars(res, note);
 
         const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
         const message = `\nClient: ${client} \nNote: ${createdNote.note}`;
