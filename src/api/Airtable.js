@@ -42,7 +42,7 @@ module.exports = class AirtableApi {
 
     async getCampaigns(table, view) {
         try {
-            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
+            const base = await this.config("appGB7S9Wknu6MiQb");
 
             const res = await base(table).select({ view }).firstPage();
 

@@ -33,7 +33,6 @@ const clients = require("./src/clients");
         //     ],
         //     // owners: [],
         // };
-
         // // formate @mention
         // let mentions = owners.length > 0 ? owners.map((owner) => owner.name) : [];
         // sales_rep_name !== null && mentions.push(sales_rep_name);
@@ -42,19 +41,7 @@ const clients = require("./src/clients");
         //     .unshift("@")
         //     .map((mention) => mention.replace(" ", ""))
         //     .join(" @");
-
         // console.log(mentions);
-
-        // const sales_rep_name = "Ryan Roman";
-        const sales_rep_name = null;
-
-        if (sales_rep_name) {
-            const mention = `@${sales_rep_name.replace(" ", "")}`;
-
-            console.log("TRUEEE", mention);
-        } else {
-            console.log("FALSEE");
-        }
     } catch (error) {
         console.log(error.message);
     }
