@@ -13,6 +13,8 @@ exports.handler = async (event) => {
 
         const { queryStringParameters } = event;
 
+        console.log("event.queryStringParameters -->", event.queryStringParameters);
+
         console.log(res);
 
         return {
