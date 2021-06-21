@@ -59,8 +59,10 @@ module.exports = class HelperApi {
             .split(" ")
             .map((word) => {
                 if (word.includes("{{") && word.includes("}}")) {
-                    let variable = word.replace("{{", "").replace("}}", "");
-                    return res[variable];
+                    word = word.replace("{{", "").split("}}"); // ["title", "}}" ,"?"]
+                    const variable = word[0];
+
+                    return res[variable] + word.pop();
                 }
                 return word;
             })

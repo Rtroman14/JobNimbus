@@ -48,8 +48,7 @@ const clients = require("./src/clients");
             title: "Task Title",
         };
 
-        const note =
-            "Did the task: {{title}} happen? It has been two days overdue and has not been marked as complete.";
+        const note = "Did you complete {{title}} ?";
 
         const newNote = Helper.stringVars(jnid, note);
         console.log(newNote);
