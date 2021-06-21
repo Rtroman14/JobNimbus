@@ -30,8 +30,8 @@ exports.handler = async (event) => {
             mention = `@${sales_rep_name.replace(" ", "")}`;
         }
 
-        const note = await JobNimbus.createNote(jnid, `${mention} ${note}`);
-        console.log(note);
+        const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
+        console.log(createdNote);
 
         return {
             statusCode: 200,
