@@ -15,35 +15,46 @@ const clients = require("./src/clients");
 
 (async () => {
     try {
-        const { jnid, sales_rep_name, owners } = {
-            jnid: "123",
-            // sales_rep_name: null,
-            sales_rep_name: "Ryan Roman",
-            owners: [
-                {
-                    id: "3vlshr",
-                    email: "chrispendergast21@gmail.com",
-                    name: "Chris Pendergast",
-                },
-                {
-                    id: "kpwrz7poastl1hfqz2o6yix",
-                    email: "Rtroman14@gmail.com",
-                    name: "Ryan Roman",
-                },
-            ],
-            // owners: [],
-        };
+        // const { jnid, sales_rep_name, owners } = {
+        //     jnid: "123",
+        //     // sales_rep_name: null,
+        //     sales_rep_name: "Ryan Roman",
+        //     owners: [
+        //         {
+        //             id: "3vlshr",
+        //             email: "chrispendergast21@gmail.com",
+        //             name: "Chris Pendergast",
+        //         },
+        //         {
+        //             id: "kpwrz7poastl1hfqz2o6yix",
+        //             email: "Rtroman14@gmail.com",
+        //             name: "Ryan Roman",
+        //         },
+        //     ],
+        //     // owners: [],
+        // };
 
-        // formate @mention
-        let mentions = owners.length > 0 ? owners.map((owner) => owner.name) : [];
-        sales_rep_name !== null && mentions.push(sales_rep_name);
-        mentions = [...new Set(mentions)];
-        mentions = mentions
-            .unshift("@")
-            .map((mention) => mention.replace(" ", ""))
-            .join(" @");
+        // // formate @mention
+        // let mentions = owners.length > 0 ? owners.map((owner) => owner.name) : [];
+        // sales_rep_name !== null && mentions.push(sales_rep_name);
+        // mentions = [...new Set(mentions)];
+        // mentions = mentions
+        //     .unshift("@")
+        //     .map((mention) => mention.replace(" ", ""))
+        //     .join(" @");
 
-        console.log(mentions);
+        // console.log(mentions);
+
+        // const sales_rep_name = "Ryan Roman";
+        const sales_rep_name = null;
+
+        if (sales_rep_name) {
+            const mention = `@${sales_rep_name.replace(" ", "")}`;
+
+            console.log("TRUEEE", mention);
+        } else {
+            console.log("FALSEE");
+        }
     } catch (error) {
         console.log(error.message);
     }

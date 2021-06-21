@@ -39,4 +39,23 @@ module.exports = class AirtableApi {
             console.log("ERROR UPDATECONTACT() ---", error);
         }
     }
+
+    async getCampaigns(table, view) {
+        try {
+            const base = await this.assignAirtable("appGB7S9Wknu6MiQb");
+
+            const res = await base(table).select({ view }).firstPage();
+
+            const campaigns = res.map((campaign) => {
+                return {
+                    ...campaign.fields,
+                    recordID: campaign.getId(),
+                };
+            });
+
+            return campaigns;
+        } catch (error) {
+            console.log("ERROR GETCAMPAIGNS() ---", error);
+        }
+    }
 };

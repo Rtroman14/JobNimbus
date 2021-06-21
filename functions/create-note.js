@@ -1,7 +1,9 @@
 require("dotenv").config();
 
+const AirtableApi = require("../src/api/Airtable");
+const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
+
 const JobNimbusApi = require("../src/api/JobNimbus");
-const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
 const clients = require("../src/clients");
 
@@ -12,27 +14,28 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        // IMPORTANT: owners === "Assigned To"
-        // IMPORTANT: who to mention in note? sales_rep_name? all owners? one owner?
-        const { jnid, sales_rep_name, owners } = JSON.parse(event.body);
-        const { queryStringParameters } = event;
+        // NOTE: owners === "Assigned To"
+        const { jnid, sales_rep_name } = JSON.parse(event.body);
+        let { client, mention, note } = event.queryStringParameters;
 
-        // formate @mention --> returns an array
-        let mentions = owners.length > 0 ? owners.map((owner) => owner.name) : [];
-        sales_rep_name !== null && mentions.push(sales_rep_name);
-        mentions = [...new Set(mentions)];
-        mentions = mentions.map((mention) => mention.replace(" ", ""));
+        // TODO: get client's Airtable API key
+        const campaigns = await Airtable.getCampaigns("JobNimbus Accounts", "Accounts");
+        const campaign = campaigns.find((campaign) => campaign.Client === client);
 
-        if ("mention" in queryStringParameters) {
-            // TODO: queryStringParameters key === "note" --> use value
-            await JobNimbus.createNote(jnid, queryStringParameters.note);
+        const JobNimbus = new JobNimbusApi(campaign["JobNimbus API Key"]);
+
+        if (mention) {
+            mention = `@${mention.replace(" ", "")}`;
         } else {
-            // TODO: queryStringParameters key !== "note" --> @SalesRep || @AssignedTo
+            mention = `@${sales_rep_name.replace(" ", "")}`;
         }
+
+        const note = await JobNimbus.createNote(jnid, `${mention} ${note}`);
+        console.log(note);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ queryStringParameters }),
+            body: JSON.stringify({ queryStringParameters: event.queryStringParameters }),
         };
     } else {
         return {
@@ -40,15 +43,4 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "Error" }),
         };
     }
-};
-
-const url = {
-    client: "Eco Tec",
-    note: "This is the note",
-    mention: "Stacy Assistant",
-};
-
-const url2 = {
-    client: "Eco Tec",
-    note: "This is the note",
 };
