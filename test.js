@@ -43,15 +43,18 @@ const clients = require("./src/clients");
         //     .join(" @");
         // console.log(mentions);
 
-        const jnid = {
-            jnid: "123jvohsef",
-            title: "Task Title",
-        };
+        let mention = "Ryan Roman, Chris Pendy";
+        // let mention = "Ryan Roman";
 
-        const note = "Did you complete {{title}} ?";
-
-        const newNote = Helper.stringVars(jnid, note);
-        console.log(newNote);
+        if (mention.includes(",")) {
+            mention = mention
+                .split(",")
+                .map((person) => `@${person.trim().replace(" ", "")}`)
+                .join(" ");
+        } else {
+            mention = `@${mention.replace(" ", "")}`;
+        }
+        console.log(mention);
     } catch (error) {
         console.log(error.message);
     }

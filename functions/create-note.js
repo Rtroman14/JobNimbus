@@ -35,7 +35,14 @@ exports.handler = async (event) => {
         }
 
         if (mention) {
-            mention = `@${mention.replace(" ", "")}`;
+            if (mention.includes(",")) {
+                mention = mention
+                    .split(",")
+                    .map((person) => `@${person.trim().replace(" ", "")}`)
+                    .join(" ");
+            } else {
+                mention = `@${mention.replace(" ", "")}`;
+            }
         } else {
             mention = `@${sales_rep_name.replace(" ", "")}` || "";
         }
