@@ -54,7 +54,7 @@ module.exports = class HelperApi {
         };
     }
 
-    stringVars(res, note) {
+    queryStringVars(res, note) {
         return note
             .split(" ")
             .map((word) => {

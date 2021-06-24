@@ -23,10 +23,10 @@ exports.handler = async (event) => {
         let { jnid, sales_rep_name, type, related } = JSON.parse(event.body);
         let { client, mention, note } = event.queryStringParameters;
 
-        const campaigns = await Airtable.getCampaigns("JobNimbus Accounts", "Accounts");
-        const campaign = campaigns.find((campaign) => campaign.Client === client);
+        const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
+        const account = accounts.find((account) => account.Client === client);
 
-        const JobNimbus = new JobNimbusApi(campaign["JobNimbus API Key"]);
+        const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
 
         if (type === "task") {
             if (related.length > 0) {
@@ -47,7 +47,7 @@ exports.handler = async (event) => {
             mention = `@${sales_rep_name.replace(" ", "")}` || "";
         }
 
-        note = Helper.stringVars(res, note);
+        note = Helper.queryStringVars(res, note);
 
         const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
         const message = `\nClient: ${client} \nNote: ${createdNote.note}`;

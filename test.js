@@ -13,49 +13,50 @@ const Helper = new HelperApi();
 
 const clients = require("./src/clients");
 
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+const twilio = require("twilio")(accountSid, authToken);
+
 (async () => {
     try {
-        // const { jnid, sales_rep_name, owners } = {
-        //     jnid: "123",
-        //     // sales_rep_name: null,
-        //     sales_rep_name: "Ryan Roman",
-        //     owners: [
-        //         {
-        //             id: "3vlshr",
-        //             email: "chrispendergast21@gmail.com",
-        //             name: "Chris Pendergast",
-        //         },
-        //         {
-        //             id: "kpwrz7poastl1hfqz2o6yix",
-        //             email: "Rtroman14@gmail.com",
-        //             name: "Ryan Roman",
-        //         },
-        //     ],
-        //     // owners: [],
+        const message = await twilio.messages.create({
+            body: "Hello world",
+            from: "+13127790387",
+            to: "7152525716",
+        });
+        console.log(message);
+        // ------------------------------------------ //
+        // let sales_rep_name = "Stacy lastName";
+        // let { client, body, recipient } = {
+        //     client: "Eco Tec Foam And Coatings",
+        //     body: "This is message body",
+        //     // recipient: "Stacy lastName",
+        //     // recipient: null,
         // };
-        // // formate @mention
-        // let mentions = owners.length > 0 ? owners.map((owner) => owner.name) : [];
-        // sales_rep_name !== null && mentions.push(sales_rep_name);
-        // mentions = [...new Set(mentions)];
-        // mentions = mentions
-        //     .unshift("@")
-        //     .map((mention) => mention.replace(" ", ""))
-        //     .join(" @");
-        // console.log(mentions);
-
-        let mention = "Ryan Roman, Chris Pendy";
-        // let mention = "Ryan Roman";
-
-        if (mention.includes(",")) {
-            mention = mention
-                .split(",")
-                .map((person) => `@${person.trim().replace(" ", "")}`)
-                .join(" ");
-        } else {
-            mention = `@${mention.replace(" ", "")}`;
-        }
-        console.log(mention);
+        // if (!recipient && !sales_rep_name) {
+        //     throw new Error("No one to text");
+        // }
+        // const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
+        // const account = accounts.find((account) => account.Client === client);
+        // const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
+        // if (recipient) {
+        //     recipient = persons.find(
+        //         (person) => person.Client === client && person.Name === recipient
+        //     );
+        // } else {
+        //     recipient = persons.find(
+        //         (person) => person.Client === client && person.Name === sales_rep_name
+        //     );
+        // }
+        // const message = {
+        //     body,
+        //     from: account["Phone Number"],
+        //     to: recipient["Phone Number"],
+        // };
+        // console.log(message);
     } catch (error) {
+        console.log("Catch");
         console.log(error.message);
     }
 })();

@@ -40,22 +40,22 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getCampaigns(table, view) {
+    async getAccounts(table, view) {
         try {
             const base = await this.config("appGB7S9Wknu6MiQb");
 
             const res = await base(table).select({ view }).firstPage();
 
-            const campaigns = res.map((campaign) => {
+            const accounts = res.map((account) => {
                 return {
-                    ...campaign.fields,
-                    recordID: campaign.getId(),
+                    ...account.fields,
+                    recordID: account.getId(),
                 };
             });
 
-            return campaigns;
+            return accounts;
         } catch (error) {
-            console.log("ERROR GETCAMPAIGNS() ---", error);
+            console.log("ERROR GETACCOUNTS() ---", error);
         }
     }
 };

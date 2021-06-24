@@ -8,15 +8,55 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
+        let { sales_rep_name } = JSON.parse(event.body);
+        let { client, body, recipient } = event.queryStringParameters;
 
-        const { queryStringParameters } = event;
+        try {
+            if (!recipient && !sales_rep_name) {
+                throw new Error("No one to text");
+            }
 
-        console.log(res);
+            const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
+            const account = accounts.find((account) => account.Client === client);
+            const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ queryStringParameters }),
-        };
+            const twilio = require("twilio")(
+                account["Twilio Account SID"],
+                account["Twilio Auth Token"]
+            );
+
+            if (recipient) {
+                recipient = persons.find(
+                    (person) => person.Client === client && person.Name === recipient
+                );
+            } else {
+                recipient = persons.find(
+                    (person) => person.Client === client && person.Name === sales_rep_name
+                );
+            }
+
+            body = Helper.queryStringVars(res, body);
+
+            const message = await twilio.messages.create({
+                body,
+                from: account["Phone Number"],
+                to: recipient["Phone Number"],
+            });
+
+            console.log(`Client: ${client} \nText Message: ${body} \nTo: ${to}`);
+
+            return {
+                statusCode: 200,
+                body: JSON.stringify({ message }),
+            };
+        } catch (error) {
+            console.log(`Error: ${error.message} \nClient: ${client}`);
+
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ msg: error.message }),
+            };
+        }
     } else {
         return {
             statusCode: 500,
