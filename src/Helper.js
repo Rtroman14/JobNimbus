@@ -54,18 +54,7 @@ module.exports = class HelperApi {
         };
     }
 
-    queryStringVars(res, note) {
-        return note
-            .split(" ")
-            .map((word) => {
-                if (word.includes("{{") && word.includes("}}")) {
-                    word = word.replace("{{", "").split("}}"); // ["title", "}}" ,"?"]
-                    const variable = word[0];
-
-                    return res[variable] + word.pop();
-                }
-                return word;
-            })
-            .join(" ");
+    queryStringVars(res, string) {
+        return string.replace(/\{{(.+?)\}}/g, (brackets, variable) => res[variable]);
     }
 };

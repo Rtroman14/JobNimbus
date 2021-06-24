@@ -8,8 +8,6 @@ const JobNimbusApi = require("../src/api/JobNimbus");
 const HelperApi = require("../src/Helper");
 const Helper = new HelperApi();
 
-const clients = require("../src/clients");
-
 // IMPORTANT: must have "client" and "note" query params. "mention" is optional
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -23,40 +21,53 @@ exports.handler = async (event) => {
         let { jnid, sales_rep_name, type, related } = JSON.parse(event.body);
         let { client, mention, note } = event.queryStringParameters;
 
-        const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
-        const account = accounts.find((account) => account.Client === client);
-
-        const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
-
-        if (type === "task") {
-            if (related.length > 0) {
-                jnid = related[0].id;
+        try {
+            if (!mention && !sales_rep_name) {
+                throw new Error("No one to notify");
             }
-        }
 
-        if (mention) {
-            if (mention.includes(",")) {
-                mention = mention
-                    .split(",")
-                    .map((person) => `@${person.trim().replace(" ", "")}`)
-                    .join(" ");
+            const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
+            const account = accounts.find((account) => account.Client === client);
+
+            const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
+
+            if (type === "task") {
+                if (related.length > 0) {
+                    jnid = related[0].id;
+                }
+            }
+
+            if (mention) {
+                if (mention.includes(",")) {
+                    mention = mention
+                        .split(",")
+                        .map((person) => `@${person.trim().replace(" ", "")}`)
+                        .join(" ");
+                } else {
+                    mention = `@${mention.replace(" ", "")}`;
+                }
             } else {
-                mention = `@${mention.replace(" ", "")}`;
+                mention = `@${sales_rep_name.replace(" ", "")}` || "";
             }
-        } else {
-            mention = `@${sales_rep_name.replace(" ", "")}` || "";
+
+            note = Helper.queryStringVars(res, note);
+
+            const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
+            const message = `\nClient: ${client} \nNote: ${createdNote.note}`;
+            console.log(message);
+
+            return {
+                statusCode: 200,
+                body: JSON.stringify({ message }),
+            };
+        } catch (error) {
+            console.log(`Error: ${error.message} \nClient: ${client}`);
+
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ msg: error.message }),
+            };
         }
-
-        note = Helper.queryStringVars(res, note);
-
-        const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
-        const message = `\nClient: ${client} \nNote: ${createdNote.note}`;
-        console.log(message);
-
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ message }),
-        };
     } else {
         return {
             statusCode: 500,

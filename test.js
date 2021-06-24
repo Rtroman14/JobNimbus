@@ -20,12 +20,24 @@ const twilio = require("twilio")(accountSid, authToken);
 
 (async () => {
     try {
-        const message = await twilio.messages.create({
-            body: "Hello world",
-            from: "+13127790387",
-            to: "7152525716",
-        });
-        console.log(message);
+        // const message = await twilio.messages.create({
+        //     body: "Hello world",
+        //     from: "+13127790387",
+        //     to: "7152525716",
+        // });
+        // console.log(message);
+        // ------------------------------------------ //
+        const res = {
+            jnid: "kpe8u9zdn674jo88mxz05ib",
+            name: "Job Name",
+        };
+        let body =
+            "Check the status of the proposal for job: {{name}}. app.jobnimbus.com/job/{{jnid}}";
+
+        body = Helper.queryStringVars(res, body);
+
+        console.log(body);
+
         // ------------------------------------------ //
         // let sales_rep_name = "Stacy lastName";
         // let { client, body, recipient } = {

@@ -1,7 +1,7 @@
 module.exports = (client, contact = { Research: "", Response: "" }) => {
     const clients = [
         {
-            client: "Eco Tec Foam & Coatings",
+            client: "Eco Tec Foam And Coatings",
             additionalContactFields: {
                 record_type_name: "Customer",
                 status_name: "Active",
@@ -31,7 +31,8 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 },
             ],
             notes: {
-                addLead: "@RyanRoman New lead! Please see description.",
+                addLead:
+                    "@RyanRoman New Summa lead! Please see description before calling or scheduling the appointment for Josh. Thanks!",
             },
         },
     ];
