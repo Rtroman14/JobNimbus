@@ -86,6 +86,18 @@ module.exports = class JobNimbusApi {
         }
     }
 
+    async getJob(id) {
+        try {
+            const config = this.getConfig("get", `jobs/${id}`);
+
+            const { data } = await axios(config);
+
+            return data;
+        } catch (error) {
+            console.log("ERROR GETJOB ---", error);
+        }
+    }
+
     async createNote(id, note) {
         try {
             const config = this.getConfig("post", "activities", {
