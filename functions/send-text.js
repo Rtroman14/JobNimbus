@@ -43,7 +43,7 @@ exports.handler = async (event) => {
                 to: recipient["Phone Number"],
             });
 
-            console.log(`Client: ${client} \nText Message: ${body} \nTo: ${to}`);
+            console.log(`Client: ${client} \nText Message: ${body} \nTo: ${recipient}`);
 
             return {
                 statusCode: 200,
