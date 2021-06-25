@@ -1,5 +1,11 @@
 require("dotenv").config();
 
+const AirtableApi = require("../src/api/Airtable");
+const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
+
+const HelperApi = require("../src/Helper");
+const Helper = new HelperApi();
+
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
         return {
