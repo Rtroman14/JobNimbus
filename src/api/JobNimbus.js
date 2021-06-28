@@ -5,7 +5,7 @@ const axios = require("axios");
 module.exports = class JobNimbusApi {
     constructor(token) {
         if (!token) {
-            throw new Error("Using Airtable requires an API key.");
+            throw new Error("Using JobNimbus requires an API key.");
         }
 
         this.token = token;

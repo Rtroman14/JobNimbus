@@ -2,10 +2,13 @@ require("dotenv").config();
 
 const axios = require("axios");
 
+const HelperApi = require("../../src/Helper");
+const Helper = new HelperApi();
+
 module.exports = class Highlevel {
     constructor(token) {
         if (!token) {
-            throw new Error("Using Airtable requires an API key.");
+            throw new Error("Using Highlevel requires an API key.");
         }
 
         this.token = token;
@@ -35,19 +38,66 @@ module.exports = class Highlevel {
         }
     }
 
-    async createContact(data) {
+    async createContact(contact) {
         try {
             const config = this.getConfig(
                 "post",
                 "https://rest.gohighlevel.com/v1/contacts/",
-                data
+                contact
+            );
+
+            const { data } = await axios(config);
+
+            return data.contact;
+        } catch (error) {
+            console.log("ERROR CREATECONTACT ---", error);
+        }
+    }
+
+    async updateContact(id, updatedFields) {
+        try {
+            const config = this.getConfig(
+                "put",
+                `https://rest.gohighlevel.com/v1/contacts/${id}`,
+                updatedFields
+            );
+
+            const { data } = await axios(config);
+
+            return data.contact;
+        } catch (error) {
+            console.log("ERROR CREATECONTACT ---", error);
+        }
+    }
+
+    async deleteContact(id) {
+        try {
+            const config = this.getConfig(
+                "delete",
+                `https://rest.gohighlevel.com/v1/contacts/${id}`
             );
 
             const res = await axios(config);
 
-            return res.data.contact;
+            return res;
         } catch (error) {
-            console.log("ERROR CREATECONTACT ---", error);
+            console.log("ERROR DELETECONTACT ---", error);
+        }
+    }
+
+    async searchContact(email, phone) {
+        try {
+            const config = this.getConfig(
+                "get",
+                `https://rest.gohighlevel.com/v1/contacts/lookup?email=${email}&phone=${phone}`
+            );
+
+            const { data } = await axios(config);
+
+            return data.contacts[0];
+        } catch (error) {
+            console.log("ERROR SEARCHCONTACT ---", error.message);
+            return false;
         }
     }
 
@@ -59,6 +109,7 @@ module.exports = class Highlevel {
             );
 
             const res = await axios(config);
+
             return res;
         } catch (error) {
             console.log("ERROR ADDTOCAMPAIGN ---", error);
@@ -74,6 +125,32 @@ module.exports = class Highlevel {
             return res;
         } catch (error) {
             console.log("ERROR TEXTCONTACT ---", error);
+        }
+    }
+
+    async jnToHlCampaign(jnContact, campainID) {
+        try {
+            const highlevelContact = Helper.makeHighlevelContact(jnContact);
+            const foundContact = await this.searchContact(
+                highlevelContact.email,
+                highlevelContact.phone
+            );
+
+            if (foundContact) {
+                const updatedContact = await this.updateContact(foundContact.id, {
+                    ...foundContact,
+                    dnd: false,
+                });
+
+                await this.addToCampaign(updatedContact.id, campainID);
+            } else {
+                await this.outreachContact(highlevelContact, campainID);
+            }
+
+            return true;
+        } catch (error) {
+            console.log("ERROR JNTOHLCAMPAIGN ---", error);
+            return false;
         }
     }
 };

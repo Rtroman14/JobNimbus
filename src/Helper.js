@@ -35,7 +35,7 @@ module.exports = class HelperApi {
     }
 
     makeHighlevelContact(contact) {
-        const address1 = `${contact.address_line1} ${contact.address_line2}`;
+        const address = `${contact.address_line1} ${contact.address_line2}`;
 
         const phones = [contact.mobile_phone, contact.work_phone, contact.home_phone];
 
@@ -47,7 +47,7 @@ module.exports = class HelperApi {
             name: contact.display_name,
             email: contact.email || "",
             phone: phone || "",
-            address1: address1 || "",
+            address1: address || "",
             city: contact.city || "",
             state: contact.state_text || "",
             postalCode: contact.zip || "",

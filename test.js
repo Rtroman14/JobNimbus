@@ -8,15 +8,18 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 const JobNimbusApi = require("./src/api/JobNimbus");
 const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
+const HighlevelApi = require("./src/api/Highlevel");
+const Highlevel = new HighlevelApi(process.env.HIGHLEVEL_KEY);
+
 const HelperApi = require("./src/Helper");
 const Helper = new HelperApi();
 
 const clients = require("./src/clients");
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
 
-const twilio = require("twilio")(accountSid, authToken);
+// const twilio = require("twilio")(accountSid, authToken);
 
 (async () => {
     try {
@@ -27,46 +30,23 @@ const twilio = require("twilio")(accountSid, authToken);
         // });
         // console.log(message);
         // ------------------------------------------ //
-        const res = {
-            jnid: "kpe8u9zdn674jo88mxz05ib",
-            name: "Job Name",
-        };
-        let body =
-            "Check the status of the proposal for job: {{name}}. app.jobnimbus.com/job/{{jnid}}";
-
-        body = Helper.queryStringVars(res, body);
-
-        console.log(body);
 
         // ------------------------------------------ //
-        // let sales_rep_name = "Stacy lastName";
-        // let { client, body, recipient } = {
-        //     client: "Eco Tec Foam And Coatings",
-        //     body: "This is message body",
-        //     // recipient: "Stacy lastName",
-        //     // recipient: null,
-        // };
-        // if (!recipient && !sales_rep_name) {
-        //     throw new Error("No one to text");
-        // }
-        // const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
-        // const account = accounts.find((account) => account.Client === client);
-        // const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
-        // if (recipient) {
-        //     recipient = persons.find(
-        //         (person) => person.Client === client && person.Name === recipient
-        //     );
-        // } else {
-        //     recipient = persons.find(
-        //         (person) => person.Client === client && person.Name === sales_rep_name
-        //     );
-        // }
-        // const message = {
-        //     body,
-        //     from: account["Phone Number"],
-        //     to: recipient["Phone Number"],
-        // };
-        // console.log(message);
+        const contact = {
+            firstName: "Ryan",
+            lastName: "Roman",
+            name: "Ryan Roman",
+            email: "ryan@summamedia.co",
+            phone: "7152525716",
+            address1: "11958 Ridge Parkway Apt 209",
+            city: "Broomfield",
+            state: "CO",
+            postalCode: "80021",
+        };
+
+        const highlevelContact = await Highlevel.createContact(contact);
+
+        console.log(highlevelContact);
     } catch (error) {
         console.log("Catch");
         console.log(error.message);
