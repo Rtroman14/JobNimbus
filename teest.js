@@ -4,7 +4,7 @@ const AirtableApi = require("./src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const HighlevelApi = require("./src/api/Highlevel");
-const Highlevel = new HighlevelApi(process.env.HIGHLEVEL_KEY);
+// const Highlevel = new HighlevelApi(process.env.HIGHLEVEL_KEY);
 
 const HelperApi = require("./src/Helper");
 const Helper = new HelperApi();
@@ -54,9 +54,58 @@ const res = {
     created_by_email: "chrispendergast21@gmail.com",
 };
 
+// const res = {
+//     jnid: "kpe8u9zdn674jo88mxz05ib",
+//     type: "job",
+//     external_id: null,
+//     number: "1005",
+//     created_by: "3vlshr",
+//     created_by_name: "Chris Pendergast",
+//     date_created: 1622564216,
+//     date_updated: 1624993473,
+//     location: { id: 1 },
+//     owners: [],
+//     date_start: 0,
+//     date_end: 0,
+//     tags: [],
+//     related: [
+//         {
+//             id: "3vm450",
+//             name: "Ryan Roman",
+//             number: "1004",
+//             type: "contact",
+//         },
+//         {
+//             id: "3vlsil",
+//             name: "Jane Tester",
+//             number: "1002",
+//             type: "contact",
+//         },
+//     ],
+//     sales_rep: "kpwrz7poastl1hfqz2o6yix",
+//     sales_rep_name: "Ryan Roman",
+//     date_status_change: 1624993473,
+//     description: null,
+//     address_line1: "11958 Ridge Parkway",
+//     address_line2: "Apt 209",
+//     city: "Broomfield",
+//     state_text: "CO",
+//     zip: "80021",
+//     country_name: "United States",
+//     record_type_name: "Roof Coatings",
+//     status_name: "Send Final Invoice",
+//     source_name: "Summa Media - SEO",
+//     primary: { id: "3vm450", name: "Ryan Roman", number: "1004", type: "contact" },
+//     name: "Ryan Roman",
+//     parent_home_phone: "7152525716",
+//     parent_mobile_phone: "",
+//     parent_work_phone: "",
+//     parent_fax_number: "",
+//     sales_rep_email: "Rtroman14@gmail.com",
+//     created_by_email: "chrispendergast21@gmail.com",
+// };
+
 (async () => {
-    // const res = JSON.parse(event.body);
-    let { related } = res;
     let { client, campaign } = {
         client: "Eco Tec Foam And Coatings",
         campaign: "Test Emails",
@@ -77,8 +126,8 @@ const res = {
             };
             let contacts = [];
 
-            if (related.length) {
-                for (let relatedSibling of related) {
+            if (res.related.length) {
+                for (let relatedSibling of res.related) {
                     if (relatedSibling.type === "job") {
                         job.jnid = relatedSibling.id;
                     }
@@ -102,7 +151,7 @@ const res = {
 
                     if (addedToCampaign) {
                         console.log(
-                            `Client = ${client} \nHighlevel Campaign = ${campaign} \nContact = ${highlevelContact.name}`
+                            `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                         );
                     }
                 }
@@ -118,23 +167,42 @@ const res = {
 
                     if (addedToCampaign) {
                         console.log(
-                            `Client = ${client} \nHighlevel Campaign = ${campaign} \nContact = ${highlevelContact.name}`
+                            `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                         );
                     }
                 }
             }
         }
 
-        // return {
-        //     statusCode: 200,
-        //     body: JSON.stringify({ message }),
-        // };
+        if (res.type === "job") {
+            // get contacts res.related to job
+            const jnJob = await JobNimbus.getJob(res.jnid);
+
+            if (jnJob.primary) {
+                // push contacts to highlevel
+                const jnContact = await JobNimbus.getContact(jnJob.primary.id);
+                const addedToCampaign = await Highlevel.jnToHlCampaign(
+                    jnContact,
+                    hlCampaign["Campaign ID"]
+                );
+
+                if (addedToCampaign) {
+                    console.log(
+                        `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
+                    );
+                }
+            }
+        }
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ msg: "Pushed contact to HL campaign" }),
+        };
     } catch (error) {
-        console.log(error);
-        // console.log(`Error: ${error.message} \nClient: ${client}`);
-        // return {
-        //     statusCode: 500,
-        //     body: JSON.stringify({ msg: error.message }),
-        // };
+        console.log(`Error: ${error.message} \nClient: ${client}`);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ msg: error.message }),
+        };
     }
 })();
