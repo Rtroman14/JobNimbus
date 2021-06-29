@@ -59,6 +59,12 @@ exports.handler = async (event) => {
                             console.log(
                                 `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                             );
+
+                            const createdNote = await JobNimbus.createNote(
+                                job.jnid,
+                                `Pushed ${jnContact.display_name} to '${campaign}' campaign`
+                            );
+                            console.log(`\nClient: ${client} \nNote: ${createdNote.note}`);
                         }
                     }
                 }
@@ -75,6 +81,12 @@ exports.handler = async (event) => {
                             console.log(
                                 `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                             );
+
+                            const createdNote = await JobNimbus.createNote(
+                                jnContact.jnid,
+                                `Pushed ${jnContact.display_name} to '${campaign}' campaign`
+                            );
+                            console.log(`\nClient: ${client} \nNote: ${createdNote.note}`);
                         }
                     }
                 }
@@ -96,6 +108,12 @@ exports.handler = async (event) => {
                         console.log(
                             `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                         );
+
+                        const createdNote = await JobNimbus.createNote(
+                            res.jnid,
+                            `Pushed ${jnContact.display_name} to '${campaign}' campaign`
+                        );
+                        console.log(`\nClient: ${client} \nNote: ${createdNote.note}`);
                     }
                 }
             }
