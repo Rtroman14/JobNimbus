@@ -57,7 +57,7 @@ exports.handler = async (event) => {
 
                         if (addedToCampaign) {
                             console.log(
-                                `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
+                                `\nClient = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                             );
 
                             const createdNote = await JobNimbus.createNote(
@@ -79,7 +79,7 @@ exports.handler = async (event) => {
 
                         if (addedToCampaign) {
                             console.log(
-                                `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
+                                `\nClient = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                             );
 
                             const createdNote = await JobNimbus.createNote(
@@ -106,7 +106,7 @@ exports.handler = async (event) => {
 
                     if (addedToCampaign) {
                         console.log(
-                            `Client = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
+                            `\nClient = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
                         );
 
                         const createdNote = await JobNimbus.createNote(
