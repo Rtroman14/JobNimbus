@@ -42,8 +42,9 @@ exports.handler = async (event) => {
         const jnJob = await JobNimbus.createJob(jobFields);
         console.log("Created new job:", jnJob.name);
 
+        // NOTE: CREATE NOTE WITHIN JOBNIMBUS TO SEPARATE AUTOMATIONS
         // create note
-        const note = await JobNimbus.createNote(jnJob.jnid, notes.addLead);
+        // const note = await JobNimbus.createNote(jnJob.jnid, notes.addLead);
 
         return {
             statusCode: 200,
