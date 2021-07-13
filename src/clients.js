@@ -30,10 +30,6 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                     id: "",
                 },
             ],
-            notes: {
-                addLead:
-                    "@RyanRoman New Summa lead! Please see description before calling or scheduling the appointment for Josh. Thanks!",
-            },
         },
         {
             client: "I Am Roofing",
@@ -42,17 +38,18 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
-                Service: "Roof Coatings",
+                // Service: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
-                sales_rep_name: "Ryan Roman",
-                owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
+                // sales_rep_name: "Ryan Roman",
+                // owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // I Am Roofing
             },
             additionalJobFields: {
-                sales_rep_name: "Ryan Roman",
-                record_type_name: "Roof Coatings",
+                status_name: "Lead",
+                // sales_rep_name: "Logan Walston",
+                record_type_name: "Residential Replacement",
                 source_name: "Summa Media - Outreach Program",
-                owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
+                // owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // I Am Roofing
             },
             team: [
@@ -61,14 +58,10 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                     id: "kpwrz7poastl1hfqz2o6yix",
                 },
                 {
-                    name: "Chris Pendergast",
-                    id: "",
+                    name: "Logan Walston",
+                    id: "35w4ow",
                 },
             ],
-            notes: {
-                addLead:
-                    "@RyanRoman New Summa lead! Please see description before calling or scheduling the appointment for Josh. Thanks!",
-            },
         },
     ];
 

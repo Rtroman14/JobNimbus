@@ -71,6 +71,7 @@ module.exports = class JobNimbusApi {
             return data;
         } catch (error) {
             console.log("ERROR CREATECONTACT ---", error);
+            return false;
         }
     }
 
@@ -83,6 +84,7 @@ module.exports = class JobNimbusApi {
             return data;
         } catch (error) {
             console.log("ERROR CREATEJOB ---", error);
+            return false;
         }
     }
 
