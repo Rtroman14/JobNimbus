@@ -38,6 +38,11 @@ exports.handler = async (event) => {
             }
 
             if (mention) {
+                // if mention === a specific deal field
+                if (mention in res) {
+                    mention = res[mention];
+                }
+
                 if (mention.includes(",")) {
                     mention = mention
                         .split(",")
