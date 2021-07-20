@@ -32,6 +32,11 @@ exports.handler = async (event) => {
             );
 
             if (recipient) {
+                // if recipient === a specific deal field
+                if (recipient in res) {
+                    recipient = res[recipient];
+                }
+
                 recipient = persons.find(
                     (person) => person.Client === client && person.Name === recipient
                 );
