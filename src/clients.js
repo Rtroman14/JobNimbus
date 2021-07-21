@@ -39,18 +39,19 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
                 // Service: "Roof Coatings",
-                source_name: "Summa Media - Outreach Program",
+                source_name: "Summa Media",
                 // sales_rep_name: "Ryan Roman",
                 // owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // I Am Roofing
             },
             additionalJobFields: {
                 status_name: "Lead",
-                // sales_rep_name: "Logan Walston",
+                sales_rep_name: "Logan Walston",
                 record_type_name: "Residential Replacement",
-                source_name: "Summa Media - Outreach Program",
+                source_name: "Summa Media",
                 // owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // I Am Roofing
+                ["Production Coordinator"]: "Brian Ford",
             },
             team: [
                 {

@@ -50,6 +50,9 @@ exports.handler = async (event) => {
 
                     // NOTE: CREATE NOTE WITHIN JOBNIMBUS TO SEPARATE AUTOMATIONS
                     // const note = await JobNimbus.createNote(jnJob.jnid, notes.addLead);
+
+                    // TODO: if "Scheduled Call" in airtable --> create task
+                    // TODO: if "Scheduled Call" in airtable --> create note && send text
                 }
             }
 
