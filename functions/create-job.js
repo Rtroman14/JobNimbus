@@ -23,7 +23,7 @@ exports.handler = async (event) => {
 
         try {
             let contact = await Airtable.getContact(baseID, recordID);
-            const { additionalContactFields, additionalJobFields, leadFollowUp } = clients(
+            const { additionalContactFields, additionalJobFields, scheduledCall } = clients(
                 client,
                 contact
             );
@@ -37,26 +37,30 @@ exports.handler = async (event) => {
             const account = accounts.find((account) => account.Client === client);
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
 
-            // create contact
+            // contact fields
             const baseContact = JobNimbus.baseContact(contact);
             const contactFields = { ...baseContact, ...additionalContactFields };
+            // job fields
+            const baseJob = JobNimbus.baseJob(jnContact);
+            let jobFields = { ...baseJob, ...additionalJobFields };
+            if ("Scheduled Call" in contact) {
+                jobFields = { ...jobFields, status_name: scheduledCall.jobStatusName };
+            }
+
             const jnContact = await JobNimbus.createContact(contactFields);
 
             if (jnContact) {
                 console.log("Created new contact:", jnContact.display_name);
 
-                // create job
-                const baseJob = JobNimbus.baseJob(jnContact);
-                const jobFields = { ...baseJob, ...additionalJobFields };
                 const jnJob = await JobNimbus.createJob(jobFields);
 
                 if (jnJob) {
                     console.log("Created new job:", jnJob.name);
 
                     if ("Scheduled Call" in contact) {
-                        const scheduledCall = new Date(contact["Scheduled Call"]);
+                        const scheduledCallDate = new Date(contact["Scheduled Call"]);
                         const scheduledCallFormated =
-                            moment(scheduledCall).format("MMMM Do YYYY, h:mm a");
+                            moment(scheduledCallDate).format("MMMM Do YYYY, h:mm a");
 
                         // NOTE: related only uses the first instance
                         const newTask = {
@@ -64,9 +68,9 @@ exports.handler = async (event) => {
                             title: "New Lead - Follow Up",
                             description: `${jnContact.display_name} wishes to be contacted on ${scheduledCallFormated} MST`,
                             related: [{ id: jnContact.jnid }], // contact id - shows up under job
-                            date_start: scheduledCall.getTime(),
-                            date_end: scheduledCall.setHours(scheduledCall.getHours() + 1),
-                            owners: [{ id: leadFollowUp }],
+                            date_start: scheduledCallDate.getTime(),
+                            date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
+                            owners: [{ id: scheduledCall.salesRep }],
                             priority: 1,
                         };
 
@@ -93,5 +97,3 @@ exports.handler = async (event) => {
         };
     }
 };
-
-// ALL JOB STATUS === LEAD --> IT SHOULD BE STATUS === LEAD FOLLOW UP IF CALL SCHEDULED IN CONTACT
