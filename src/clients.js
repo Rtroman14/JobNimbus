@@ -14,6 +14,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 location: { id: 1 }, // Eco Tec Foam And Coatings
             },
             additionalJobFields: {
+                name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
                 sales_rep_name: "Ryan Roman",
                 record_type_name: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
@@ -45,11 +46,11 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 location: { id: 1 }, // I Am Roofing
             },
             additionalJobFields: {
+                name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
                 status_name: "Lead",
                 sales_rep_name: "Logan Walston",
                 record_type_name: "Residential Replacement",
                 source_name: "Summa Media",
-                // owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // I Am Roofing
                 ["Production Coordinator"]: "Brian Ford",
             },

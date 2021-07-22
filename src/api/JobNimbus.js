@@ -149,7 +149,6 @@ module.exports = class JobNimbusApi {
 
     baseJob(jnContact) {
         return {
-            name: jnContact.address_line1,
             record_type_name: "Job",
             status_name: "Lead",
             description: jnContact.description,
