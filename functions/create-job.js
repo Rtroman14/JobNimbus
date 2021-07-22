@@ -1,7 +1,5 @@
 require("dotenv").config();
 
-const moment = require("moment");
-
 const AirtableApi = require("../src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
@@ -61,8 +59,6 @@ exports.handler = async (event) => {
 
                     if ("Scheduled Call" in contact) {
                         const scheduledCallDate = new Date(contact["Scheduled Call"]);
-                        // const scheduledCallFormated =
-                        //     moment(scheduledCallDate).format("MMMM Do YYYY, h:mm a");
 
                         // NOTE: MUST dissable GMT in Airtable
                         // NOTE: related only uses the first instance
