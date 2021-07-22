@@ -93,3 +93,5 @@ exports.handler = async (event) => {
         };
     }
 };
+
+// ALL JOB STATUS === LEAD --> IT SHOULD BE STATUS === LEAD FOLLOW UP IF CALL SCHEDULED IN CONTACT
