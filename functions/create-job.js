@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const moment = require("moment");
+
 const AirtableApi = require("../src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
@@ -21,7 +23,10 @@ exports.handler = async (event) => {
 
         try {
             let contact = await Airtable.getContact(baseID, recordID);
-            const { additionalContactFields, additionalJobFields } = clients(client, contact);
+            const { additionalContactFields, additionalJobFields, leadFollowUp } = clients(
+                client,
+                contact
+            );
 
             if (!("Street" in contact)) {
                 const address = await Helper.getAddress(contact.Address);
@@ -48,11 +53,26 @@ exports.handler = async (event) => {
                 if (jnJob) {
                     console.log("Created new job:", jnJob.name);
 
-                    // NOTE: CREATE NOTE WITHIN JOBNIMBUS TO SEPARATE AUTOMATIONS
-                    // const note = await JobNimbus.createNote(jnJob.jnid, notes.addLead);
+                    if ("Scheduled Call" in contact) {
+                        const scheduledCall = new Date(contact["Scheduled Call"]);
+                        const scheduledCallFormated =
+                            moment(scheduledCall).format("MMMM Do YYYY, h:mm a");
 
-                    // TODO: if "Scheduled Call" in airtable --> create task
-                    // TODO: if "Scheduled Call" in airtable --> create note && send text
+                        // NOTE: related only uses the first instance
+                        const newTask = {
+                            record_type_name: "New Lead",
+                            title: "New Lead - Follow Up",
+                            description: `${jnContact.display_name} wishes to be contacted on ${scheduledCallFormated} MST`,
+                            related: [{ id: jnContact.jnid }], // contact id - shows up under job
+                            date_start: scheduledCall.getTime(),
+                            date_end: scheduledCall.setHours(scheduledCall.getHours() + 1),
+                            owners: [{ id: leadFollowUp }],
+                            priority: 1,
+                        };
+
+                        const task = await JobNimbus.createTask(newTask);
+                        console.log("Created new contact:", task.title);
+                    }
                 }
             }
 

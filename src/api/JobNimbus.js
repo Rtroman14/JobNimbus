@@ -118,6 +118,19 @@ module.exports = class JobNimbusApi {
         }
     }
 
+    async createTask(task) {
+        try {
+            const config = this.getConfig("post", "tasks", task);
+
+            const { data } = await axios(config);
+
+            return data;
+        } catch (error) {
+            console.log("ERROR CREATETASK ---", error);
+            return false;
+        }
+    }
+
     baseContact(contact) {
         return {
             display_name: contact["Full Name"],

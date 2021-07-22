@@ -53,11 +53,8 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 location: { id: 1 }, // I Am Roofing
                 ["Production Coordinator"]: "Brian Ford",
             },
+            leadFollowUp: "35w4ow", // team member id who will be assigned to the task: New Lead - Follow Up
             team: [
-                {
-                    name: "Ryan Roman",
-                    id: "kpwrz7poastl1hfqz2o6yix",
-                },
                 {
                     name: "Logan Walston",
                     id: "35w4ow",
