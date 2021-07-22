@@ -40,17 +40,19 @@ exports.handler = async (event) => {
             // contact fields
             const baseContact = JobNimbus.baseContact(contact);
             const contactFields = { ...baseContact, ...additionalContactFields };
-            // job fields
-            const baseJob = JobNimbus.baseJob(jnContact);
-            let jobFields = { ...baseJob, ...additionalJobFields };
-            if ("Scheduled Call" in contact) {
-                jobFields = { ...jobFields, status_name: scheduledCall.jobStatusName };
-            }
 
             const jnContact = await JobNimbus.createContact(contactFields);
 
             if (jnContact) {
                 console.log("Created new contact:", jnContact.display_name);
+
+                // job fields
+                const baseJob = JobNimbus.baseJob(jnContact);
+                let jobFields = { ...baseJob, ...additionalJobFields };
+
+                if ("Scheduled Call" in contact) {
+                    jobFields = { ...jobFields, status_name: scheduledCall.jobStatusName };
+                }
 
                 const jnJob = await JobNimbus.createJob(jobFields);
 

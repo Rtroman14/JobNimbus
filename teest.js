@@ -12,8 +12,12 @@ const Helper = new HelperApi();
 
 const clients = require("./src/clients");
 
-exports.handler = async (event) => {
-    const { recordID, baseID, client } = JSON.parse(event.body);
+(async (event) => {
+    const { recordID, baseID, client } = {
+        recordID: "recWnl3K3Fg2FfXzK",
+        baseID: "appjT6md6Csoncsjr",
+        client: "I Am Roofing",
+    };
 
     try {
         let contact = await Airtable.getContact(baseID, recordID);
@@ -34,17 +38,19 @@ exports.handler = async (event) => {
         // contact fields
         const baseContact = JobNimbus.baseContact(contact);
         const contactFields = { ...baseContact, ...additionalContactFields };
-        // job fields
-        const baseJob = JobNimbus.baseJob(jnContact);
-        let jobFields = { ...baseJob, ...additionalJobFields };
-        if ("Scheduled Call" in contact) {
-            jobFields = { ...jobFields, status_name: scheduledCall.jobStatusName };
-        }
 
         const jnContact = await JobNimbus.createContact(contactFields);
 
         if (jnContact) {
             console.log("Created new contact:", jnContact.display_name);
+
+            // job fields
+            const baseJob = JobNimbus.baseJob(jnContact);
+            let jobFields = { ...baseJob, ...additionalJobFields };
+
+            if ("Scheduled Call" in contact) {
+                jobFields = { ...jobFields, status_name: scheduledCall.jobStatusName };
+            }
 
             const jnJob = await JobNimbus.createJob(jobFields);
 
@@ -76,5 +82,5 @@ exports.handler = async (event) => {
     } catch (error) {
         console.log(error);
     }
-};
+})();
 // ALL JOB STATUS === LEAD --> IT SHOULD BE STATUS === LEAD FOLLOW UP IF CALL SCHEDULED IN CONTACT
