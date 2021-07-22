@@ -28,6 +28,8 @@ exports.handler = async (event) => {
                 const scheduledCallFormated =
                     moment(scheduledCallDate).format("MMMM Do YYYY, h:mm a");
 
+                console.log({ scheduledCallDate });
+
                 // NOTE: related only uses the first instance
                 const newTask = {
                     record_type_name: "New Lead",
