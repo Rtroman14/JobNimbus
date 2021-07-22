@@ -14,7 +14,8 @@
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "twilio": "^3.64.0",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "zipcode-to-timezone": "0.0.9"
   },
   "scripts": {
     "start": "react-scripts start",

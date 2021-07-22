@@ -61,14 +61,15 @@ exports.handler = async (event) => {
 
                     if ("Scheduled Call" in contact) {
                         const scheduledCallDate = new Date(contact["Scheduled Call"]);
-                        const scheduledCallFormated =
-                            moment(scheduledCallDate).format("MMMM Do YYYY, h:mm a");
+                        // const scheduledCallFormated =
+                        //     moment(scheduledCallDate).format("MMMM Do YYYY, h:mm a");
 
+                        // NOTE: MUST dissable GMT in Airtable
                         // NOTE: related only uses the first instance
                         const newTask = {
                             record_type_name: "New Lead",
                             title: "New Lead - Follow Up",
-                            description: `${jnContact.display_name} wishes to be contacted on ${scheduledCallFormated} MST`,
+                            description: `${jnContact.display_name} wishes to be contacted on the date/time provided.`,
                             related: [{ id: jnContact.jnid }], // contact id - shows up under job
                             date_start: scheduledCallDate.getTime(),
                             date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),

@@ -34,7 +34,7 @@ exports.handler = async (event) => {
                 const newTask = {
                     record_type_name: "New Lead",
                     title: "New Lead - Follow Up",
-                    description: `<Name> wishes to be contacted on ${scheduledCallFormated} MST`,
+                    description: `<Name> wishes to be contacted on the date/time provided.`,
                     related: [{ id: "kqsm93gvga6ic8tab5p5ail" }], // contact id - shows up under job
                     date_start: scheduledCallDate.getTime(),
                     date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
