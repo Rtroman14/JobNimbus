@@ -6,15 +6,9 @@ const AirtableApi = require("./src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const JobNimbusApi = require("./src/api/JobNimbus");
-const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
-
-const HighlevelApi = require("./src/api/Highlevel");
-const Highlevel = new HighlevelApi(process.env.HIGHLEVEL_KEY);
 
 const HelperApi = require("./src/Helper");
 const Helper = new HelperApi();
-
-const clients = require("./src/clients");
 
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
