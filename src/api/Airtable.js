@@ -30,6 +30,26 @@ module.exports = class AirtableApi {
         }
     }
 
+    async getAutomations(table, baseID) {
+        try {
+            const base = await this.config(baseID);
+
+            const records = await base(table).select().all();
+
+            const automations = records.map((account) => {
+                return {
+                    ...account.fields,
+                    recordID: account.getId(),
+                };
+            });
+
+            return automations;
+        } catch (error) {
+            console.log("ERROR GETAUTOMATIONS() ---", error);
+            return false;
+        }
+    }
+
     async updateContact(baseID, recordID, updatedFields) {
         try {
             const base = await this.config(baseID);

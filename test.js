@@ -6,6 +6,7 @@ const AirtableApi = require("./src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const JobNimbusApi = require("./src/api/JobNimbus");
+const JobNimbus = new JobNimbusApi(process.env.JOBNIMBUS_TOKEN);
 
 const HelperApi = require("./src/Helper");
 const Helper = new HelperApi();
@@ -17,28 +18,6 @@ const Helper = new HelperApi();
 
 (async () => {
     try {
-        // const message = await twilio.messages.create({
-        //     body: "Hello world",
-        //     from: "+13343262574",
-        //     to: "+17152525716",
-        // });
-        // console.log(message);
-        // ------------------------------------------ //
-        // ------------------------------------------ //
-        // const contact = {
-        //     firstName: "Ryan",
-        //     lastName: "Roman",
-        //     name: "Ryan Roman",
-        //     email: "ryan@summamedia.co",
-        //     phone: "7152525716",
-        //     address1: "11958 Ridge Parkway Apt 209",
-        //     city: "Broomfield",
-        //     state: "CO",
-        //     postalCode: "80021",
-        // };
-        // const highlevelContact = await Highlevel.createContact(contact);
-        // console.log(highlevelContact);
-        // ------------------------------------------ //
     } catch (error) {
         console.log("Catch");
         console.log(error.message);
