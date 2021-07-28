@@ -23,17 +23,21 @@ const baseID = "appr7rcKd3W6oMdiC";
         for (let automation of automations) {
             let updatedFields;
 
-            const receiver =
-                automation.Receiver in automation
-                    ? `&${Helpers.makeQuery(automation.Receiver)}`
-                    : "";
+            let receiver = "";
+
+            if ("Receiver" in automation) {
+                receiver = Helpers.makeQuery(automation.Receiver);
+            }
+
+            let noteReceiver = receiver === "" ? "" : `&mention=${receiver}`;
+            let textReceiver = receiver === "" ? "" : `&recipient=${receiver}`;
 
             if (automation.Outreach === "Both") {
                 const message = Helpers.makeQuery(automation.Body);
 
-                const noteWebhook = `${noteURL}&note=${message}${receiver}`;
+                const noteWebhook = `${noteURL}&note=${message}${noteReceiver}`;
 
-                const textWebhook = `${textURL}&body=${message}${textJobLink}${receiver}`;
+                const textWebhook = `${textURL}&body=${message}${textJobLink}${textReceiver}`;
 
                 updatedFields = {
                     "Webhook - Text": textWebhook,
