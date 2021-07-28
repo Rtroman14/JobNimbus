@@ -3,53 +3,57 @@ require("dotenv").config({ path: "../../.env" });
 const AirtableApi = require("../api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
+const HelpersApi = require("../api/Helpers");
+const Helpers = new HelpersApi();
+
 const client = "Roper Roofing";
-
-const textURL = "https://jobnimbus.netlify.app/.netlify/functions/send-text?client=";
-const noteURL = "https://jobnimbus.netlify.app/.netlify/functions/create-note?client=";
-const highlevelURL = "https://jobnimbus.netlify.app/.netlify/functions/highlevel?client=";
-
-const textJobLink = "%20Link%20-%20https://app.jobnimbus.com/job/{{jnid}}";
-
 const baseID = "appr7rcKd3W6oMdiC";
 
 (async () => {
+    const jobNimbusURL = "https://jobnimbus.netlify.app/.netlify/functions";
+    const textJobLink = "%20Link%20-%20https://app.jobnimbus.com/job/{{jnid}}";
+
+    const textURL = jobNimbusURL + "/send-text?client=" + Helpers.makeQuery(client);
+    const noteURL = jobNimbusURL + "/create-note?client=" + Helpers.makeQuery(client);
+    const highlevelURL = jobNimbusURL + "/highlevel?client=" + Helpers.makeQuery(client);
+
     try {
         const automations = await Airtable.getAutomations("CRM - Automations", baseID);
 
         for (let automation of automations) {
+            let updatedFields;
+
             const receiver =
-                automation.Receiver in automation ? `&${makeQuery(automation.Receiver)}` : "";
+                automation.Receiver in automation
+                    ? `&${Helpers.makeQuery(automation.Receiver)}`
+                    : "";
 
             if (automation.Outreach === "Both") {
-                const noteWebhook = noteURL + makeQuery(automation.Body) + receiver;
-                const textWebhook = textURL + makeQuery(automation.Body) + textJobLink + receiver;
+                const message = Helpers.makeQuery(automation.Body);
 
-                const updatedFields = {
+                const noteWebhook = `${noteURL}&note=${message}${receiver}`;
+
+                const textWebhook = `${textURL}&body=${message}${textJobLink}${receiver}`;
+
+                updatedFields = {
                     "Webhook - Text": textWebhook,
                     "Webhook - Note": noteWebhook,
                 };
             }
 
             if (automation.Outreach === "Highlevel") {
-                const highlevelWebhook = highlevelURL + receiver;
+                const campaign = Helpers.makeQuery(automation.Receiver);
+
+                const highlevelWebhook = `${highlevelURL}&campaign=${campaign}`;
+
+                updatedFields = { ...updatedFields, "Webhook - Highlevel": highlevelWebhook };
             }
 
             await Airtable.updateContact(baseID, automation.recordID, updatedFields);
+
+            await Helpers.minutesWait(0.005);
         }
     } catch (error) {
         console.log(error.message);
     }
 })();
-
-// {
-//     Name: 'RP/CP_Building Inspector - Email & Text',
-//     Stage: 'Building Inspector',
-//     Board: [ 'Residential Production', 'Commercial Production' ],
-//     Outreach: 'Both',
-//     Body: 'Job: {{name}} needs a building inspector.',
-//     'Recipient/Mention/Campaign': 'Esther Melanson',
-//     recordID: 'recgjrx8OsFVg4j7y'
-// }
-
-const makeQuery = (string) => string.replace(/\ /g, "%20");
