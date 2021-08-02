@@ -53,7 +53,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 source_name: "Summa Media",
                 location: { id: 1 }, // I Am Roofing
                 ["Production Coordinator"]: "Brian Ford",
-                ["Buisness Development"]: "Josh Knight",
+                ["Business Development"]: "Josh Knight",
                 Administration: "Angela Ford",
             },
             scheduledCall: {
