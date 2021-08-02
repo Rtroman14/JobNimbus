@@ -55,6 +55,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 ["Production Coordinator"]: "Brian Ford",
                 ["Business Development"]: "Josh Knight",
                 Administration: "Angela Ford",
+                Technician: "Matt Johnson",
             },
             scheduledCall: {
                 salesRep: "35w4ow", // team member id who will be assigned to the task: New Lead - Follow Up
