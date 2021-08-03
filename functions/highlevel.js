@@ -23,7 +23,9 @@ exports.handler = async (event) => {
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
 
             const campaigns = await Airtable.getAccounts("Campaigns", "CRM");
-            const hlCampaign = campaigns.find((record) => record.Campaign === campaign);
+            const hlCampaign = campaigns.find(
+                (record) => record.Campaign === campaign && record.Client === client
+            );
             const Highlevel = new HighlevelApi(hlCampaign["API Token"]);
 
             if (res.type === "task") {
