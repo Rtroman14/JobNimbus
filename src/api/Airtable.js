@@ -34,7 +34,7 @@ module.exports = class AirtableApi {
         try {
             const base = await this.config(baseID);
 
-            const records = await base(table).select().all();
+            const records = await base(table).select({ view: "Automations" }).all();
 
             const automations = records.map((account) => {
                 return {
