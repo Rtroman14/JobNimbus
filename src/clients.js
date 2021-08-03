@@ -39,10 +39,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
-                // Service: "Roof Coatings",
                 source_name: "Summa Media",
-                // sales_rep_name: "Ryan Roman",
-                // owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
                 location: { id: 1 }, // I Am Roofing
             },
             additionalJobFields: {
@@ -66,6 +63,36 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 {
                     name: "Logan Walston",
                     id: "35w4ow",
+                },
+            ],
+        },
+        {
+            client: "Roper Roofing",
+            additionalContactFields: {
+                record_type_name: "Customer",
+                status_name: "Active",
+                Research: contact["First Line"] || contact["FIRST LINE"] || "",
+                Response: contact.Response || "",
+                source_name: "Summa Media",
+                location: { id: 1 }, // I Am Roofing
+            },
+            additionalJobFields: {
+                name: `${contact["First Name"] || ""} ${contact["Last Name"] || ""}`,
+                status_name: "Lead",
+                // sales_rep_name: "",
+                record_type_name: "Residential Roofing",
+                source_name: "Summa Media",
+                location: { id: 1 }, // I Am Roofing
+            },
+            scheduledCall: {
+                salesRep: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up
+                jobStatusName: "Lead Follow Up",
+            },
+            leadFollowUp: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up
+            team: [
+                {
+                    name: "Brent Roper",
+                    id: "2ao08z",
                 },
             ],
         },
