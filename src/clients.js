@@ -44,7 +44,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
             },
             additionalJobFields: {
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
-                status_name: "Lead",
+                status_name: "Summa Lead",
                 sales_rep_name: "Logan Walston",
                 record_type_name: "Residential Replacement",
                 source_name: "Summa Media",
