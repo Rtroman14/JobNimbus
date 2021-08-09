@@ -45,7 +45,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
             additionalJobFields: {
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
                 status_name: "Summa Lead",
-                sales_rep_name: "Logan Walston",
+                sales_rep_name: "Josh Knight",
                 record_type_name: "Residential Replacement",
                 source_name: "Summa Media",
                 location: { id: 1 }, // I Am Roofing
@@ -55,11 +55,15 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 Technician: "Matt Johnson",
             },
             scheduledCall: {
-                salesRep: "35w4ow", // team member id who will be assigned to the task: New Lead - Follow Up
+                salesRep: "3aekxj", // team member id who will be assigned to the task: New Lead - Follow Up
                 jobStatusName: "Lead Follow Up",
             },
-            leadFollowUp: "35w4ow", // team member id who will be assigned to the task: New Lead - Follow Up
+            leadFollowUp: "3aekxj", // team member id who will be assigned to the task: New Lead - Follow Up
             team: [
+                {
+                    name: "Josh Knight",
+                    id: "3aekxj",
+                },
                 {
                     name: "Logan Walston",
                     id: "35w4ow",
