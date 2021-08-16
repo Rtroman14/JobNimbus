@@ -26,6 +26,9 @@ exports.handler = async (event) => {
             const account = accounts.find((account) => account.Client === client);
             const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
 
+            const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
+            const jnJob = await JobNimbus.getJob(jnid);
+
             const twilio = require("twilio")(
                 account["Twilio Account SID"],
                 account["Twilio Auth Token"]
@@ -33,8 +36,8 @@ exports.handler = async (event) => {
 
             if (recipient) {
                 // if recipient === a specific deal field
-                if (recipient in res) {
-                    recipient = res[recipient];
+                if (recipient in jnJob) {
+                    recipient = jnJob[recipient];
                 }
 
                 recipient = persons.find(
@@ -46,7 +49,7 @@ exports.handler = async (event) => {
                 );
             }
 
-            body = Helper.queryStringVars(res, body);
+            body = Helper.queryStringVars(jnJob, body);
 
             const message = await twilio.messages.create({
                 body,

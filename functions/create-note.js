@@ -17,7 +17,6 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         // NOTE: owners === "Assigned To"
-        let res = JSON.parse(event.body);
         let { jnid, sales_rep_name, type, related } = JSON.parse(event.body);
         let { client, mention, note } = event.queryStringParameters;
 
@@ -30,6 +29,7 @@ exports.handler = async (event) => {
             const account = accounts.find((account) => account.Client === client);
 
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
+            const jnJob = await JobNimbus.getJob(jnid);
 
             if (type === "task") {
                 if (related.length > 0) {
@@ -39,8 +39,8 @@ exports.handler = async (event) => {
 
             if (mention) {
                 // if mention === a specific deal field
-                if (mention in res) {
-                    mention = res[mention];
+                if (mention in jnJob) {
+                    mention = jnJob[mention];
                 }
 
                 if (mention.includes(",")) {
@@ -55,7 +55,7 @@ exports.handler = async (event) => {
                 mention = `@${sales_rep_name.replace(" ", "")}` || "";
             }
 
-            note = Helper.queryStringVars(res, note);
+            note = Helper.queryStringVars(jnJob, note);
 
             const createdNote = await JobNimbus.createNote(jnid, `${mention} ${note}`);
             const message = `\nClient: ${client} \nNote: ${createdNote.note}`;
