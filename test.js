@@ -51,14 +51,14 @@ const res = {
 };
 
 (async () => {
-    try {
-        let { sales_rep_name, jnid } = res;
-        let { client, body, recipient } = {
-            client: "I Am Roofing",
-            body: "This is a body",
-            recipient: "Production Coordinator",
-        };
+    let { jnid, sales_rep_name } = res;
+    let { client, body, recipient } = {
+        client: "I Am Roofing",
+        body: "This is a body",
+        recipient: "Production Coordinator",
+    };
 
+    try {
         if (!recipient && !sales_rep_name) {
             throw new Error("No one to text");
         }
@@ -86,10 +86,10 @@ const res = {
         }
 
         body = Helper.queryStringVars(jnJob, body);
-        console.log(recipient);
+
+        console.log(`\nClient: ${client} \nText Message: ${body} \nTo: ${recipient.Name}`);
     } catch (error) {
-        console.log("Catch");
-        console.log(error.message);
+        console.log(`Error: ${error.message} \nClient: ${client}`);
     }
 })();
 

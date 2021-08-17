@@ -97,6 +97,7 @@ module.exports = class JobNimbusApi {
             return data;
         } catch (error) {
             console.log("ERROR GETJOB ---", error);
+            return false;
         }
     }
 

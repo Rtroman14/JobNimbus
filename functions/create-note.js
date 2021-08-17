@@ -30,6 +30,10 @@ exports.handler = async (event) => {
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
             const jnJob = await JobNimbus.getJob(jnid);
 
+            if (jnJob === undefined || !jnJob) {
+                throw new Error(`Coulnd't find job: ${jnid} for client: ${client}`);
+            }
+
             if (type === "task") {
                 if (related.length > 0) {
                     jnid = related[0].id;
