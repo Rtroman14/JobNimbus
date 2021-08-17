@@ -16,7 +16,7 @@ const clients = require("./src/clients");
 (async () => {
     let { client, body, recipient } = {
         client: "I Am Roofing",
-        body: "This is a body",
+        body: "Job: {{name}} has been sitting in stage: Pending Deposit for 3 days.",
         recipient: "Production Coordinator",
     };
 
@@ -26,12 +26,14 @@ const clients = require("./src/clients");
         const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
 
         const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
-        // const jnJob = await JobNimbus.getJob("krgicquslvbe4cc54xmwqes");
-        const jnJob = await JobNimbus.getJob("kseq3x7326bq9utudmqi11z");
+        const jnJob = await JobNimbus.getJob("krgicquslvbe4cc54xmwqes");
+        // const jnJob = await JobNimbus.getJob("kseq3x7326bq9utudmqi11z");
 
-        console.log(jnJob);
+        // console.log(jnJob);
 
-        // kseq3x7326bq9utudmqi11z
+        body = Helper.queryStringVars(jnJob, body);
+
+        console.log(body);
     } catch (error) {
         console.log(error);
     }
