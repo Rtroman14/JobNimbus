@@ -54,7 +54,7 @@ module.exports = class AirtableApi {
         try {
             const base = await this.config(baseID);
 
-            await base("Prospects").update(recordID, updatedFields);
+            await base("CRM - Automations").update(recordID, updatedFields);
         } catch (error) {
             console.log("ERROR UPDATECONTACT() ---", error);
         }
@@ -64,7 +64,7 @@ module.exports = class AirtableApi {
         try {
             const base = await this.config("appGB7S9Wknu6MiQb");
 
-            const res = await base(table).select({ view }).firstPage();
+            const res = await base(table).select({ view }).all();
 
             const accounts = res.map((account) => {
                 return {
