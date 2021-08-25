@@ -21,7 +21,7 @@ module.exports = class AirtableApi {
         try {
             const base = await this.config(baseID);
 
-            const res = await base("First Line Ready").find(recordID);
+            const res = await base("Prospects").find(recordID);
 
             return res.fields;
         } catch (error) {
@@ -54,7 +54,7 @@ module.exports = class AirtableApi {
         try {
             const base = await this.config(baseID);
 
-            await base("First Line Ready").update(recordID, updatedFields);
+            await base("Prospects").update(recordID, updatedFields);
         } catch (error) {
             console.log("ERROR UPDATECONTACT() ---", error);
         }
