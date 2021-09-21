@@ -23,9 +23,8 @@ exports.handler = async (event) => {
                 throw new Error("No one to text");
             }
 
-            const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
-            const account = accounts.find((account) => account.Client === client);
-            const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
+            const [account] = await Airtable.getAccount(client, "Account");
+            const persons = await Airtable.getAccount(client, "Person");
 
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
             const jnJob = await JobNimbus.getJob(jnid);

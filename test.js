@@ -13,8 +13,13 @@ const Helper = new HelperApi();
 
 (async () => {
     try {
-        const account = await Airtable.getAccount("All Area Roofing");
+        const client = "All Area Roofing";
+
+        const [account] = await Airtable.getAccount(client, "Account");
+        const persons = await Airtable.getAccount(client, "Person");
+
         console.log(account);
+        console.log(persons);
     } catch (error) {
         console.log(error);
     }

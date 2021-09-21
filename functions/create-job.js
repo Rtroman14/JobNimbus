@@ -31,7 +31,7 @@ exports.handler = async (event) => {
                 contact = { ...contact, ...address };
             }
 
-            const account = await Airtable.getAccount(client);
+            const [account] = await Airtable.getAccount(client, "Account");
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
 
             // contact fields
