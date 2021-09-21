@@ -11,85 +11,12 @@ const JobNimbusApi = require("./src/api/JobNimbus");
 const HelperApi = require("./src/Helper");
 const Helper = new HelperApi();
 
-const res = {
-    jnid: "krmbu8heiqv3hfxhccywmgn",
-    type: "job",
-    external_id: null,
-    number: "1399",
-    created_by: "35wke9",
-    created_by_name: "Alec Martin",
-    date_created: 1627406547,
-    date_updated: 1629138513,
-    location: {
-        id: 1,
-    },
-    owners: [],
-    date_start: 0,
-    date_end: 0,
-    tags: [],
-    related: [],
-    sales_rep: null,
-    sales_rep_name: null,
-    date_status_change: 1629138513,
-    description: null,
-    address_line1: "220 Summit Blvd",
-    address_line2: "22-242",
-    city: "Broomfield",
-    state_text: "CO",
-    zip: "80021",
-    country_name: "United States",
-    record_type_name: "Residential Replacement",
-    status_name: "Paid Sub",
-    source_name: null,
-    primary: null,
-    name: "Summa Test",
-    parent_home_phone: "",
-    parent_mobile_phone: "",
-    parent_work_phone: "",
-    parent_fax_number: "",
-    created_by_email: "alec@iamroofing.com",
-};
-
 (async () => {
-    let { jnid, sales_rep_name } = res;
-    let { client, body, recipient } = {
-        client: "I Am Roofing",
-        body: "This is a body",
-        recipient: "Production Coordinator",
-    };
-
     try {
-        if (!recipient && !sales_rep_name) {
-            throw new Error("No one to text");
-        }
-
-        const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
-        const account = accounts.find((account) => account.Client === client);
-        const persons = await Airtable.getAccounts("JobNimbus Accounts", "Persons");
-
-        const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
-        const jnJob = await JobNimbus.getJob(jnid);
-
-        if (recipient) {
-            // if recipient === a specific deal field
-            if (recipient in jnJob) {
-                recipient = jnJob[recipient];
-            }
-
-            recipient = persons.find(
-                (person) => person.Client === client && person.Name === recipient
-            );
-        } else {
-            recipient = persons.find(
-                (person) => person.Client === client && person.Name === sales_rep_name
-            );
-        }
-
-        body = Helper.queryStringVars(jnJob, body);
-
-        console.log(`\nClient: ${client} \nText Message: ${body} \nTo: ${recipient.Name}`);
+        const account = await Airtable.getAccount("All Area Roofing");
+        console.log(account);
     } catch (error) {
-        console.log(`Error: ${error.message} \nClient: ${client}`);
+        console.log(error);
     }
 })();
 

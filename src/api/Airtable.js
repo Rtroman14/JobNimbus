@@ -60,6 +60,23 @@ module.exports = class AirtableApi {
         }
     }
 
+    async getAccount(client) {
+        try {
+            const base = await this.config("appGB7S9Wknu6MiQb");
+
+            const [account] = await base("JobNimbus Accounts")
+                .select({
+                    filterByFormula: `(AND({Client} = "${client}", {Type} = "Account"))`,
+                })
+                .all();
+
+            return account.fields;
+        } catch (error) {
+            console.log("ERROR GETACCOUNT() ---", error);
+            return false;
+        }
+    }
+
     async getAccounts(table, view) {
         try {
             const base = await this.config("appGB7S9Wknu6MiQb");
