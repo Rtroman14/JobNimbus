@@ -20,6 +20,19 @@ const Helper = new HelperApi();
 
         console.log(account);
         console.log(persons);
+
+        const twilio = require("twilio")(
+            account["Twilio Account SID"],
+            account["Twilio Auth Token"]
+        );
+
+        const message = await twilio.messages.create({
+            body: "This is a test",
+            from: account["Phone Number"],
+            to,
+        });
+
+        console.log(message);
     } catch (error) {
         console.log(error);
     }

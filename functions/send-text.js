@@ -30,7 +30,7 @@ exports.handler = async (event) => {
             const jnJob = await JobNimbus.getJob(jnid);
 
             if (jnJob === undefined || !jnJob) {
-                throw new Error(`Coulnd't find job: ${jnid} for client: ${client}`);
+                throw new Error(`Couldn't find job: ${jnid} for client: ${client}`);
             }
 
             const twilio = require("twilio")(
