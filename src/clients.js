@@ -100,6 +100,35 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 },
             ],
         },
+        {
+            client: "All Area Roofing",
+            additionalContactFields: {
+                record_type_name: "Customer",
+                status_name: "Active",
+                Research: contact["First Line"] || contact["FIRST LINE"] || "",
+                Response: contact.Response || "",
+                source_name: "Summa Media",
+                // location: { id: 1 },
+            },
+            additionalJobFields: {
+                name: `${contact["First Name"] || ""} ${contact["Last Name"] || ""}`,
+                status_name: "Summa Lead",
+                record_type_name: "Commercial Replacement",
+                source_name: "Summa Media",
+                // location: { id: 1 },
+            },
+            scheduledCall: {
+                salesRep: "kqbfh28gdquulk9goto4ylv", // team member id who will be assigned to the task: New Lead - Follow Up
+                jobStatusName: "Lead Follow Up",
+            },
+            leadFollowUp: "kqbfh28gdquulk9goto4ylv", // team member id who will be assigned to the task: New Lead - Follow Up
+            team: [
+                {
+                    name: "Jennifer Richards",
+                    id: "kqbfh28gdquulk9goto4ylv",
+                },
+            ],
+        },
     ];
 
     return clients.find((clientObj) => clientObj.client === client);
