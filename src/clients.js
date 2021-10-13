@@ -1,34 +1,30 @@
 module.exports = (client, contact = { Research: "", Response: "" }) => {
     const clients = [
         {
-            client: "Eco Tec Foam And Coatings",
+            client: "Eco Tec",
             additionalContactFields: {
-                record_type_name: "Customer",
-                status_name: "Active",
+                record_type_name: "Insulation Sales",
+                status_name: "Lead",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
                 Service: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
-                sales_rep_name: "Ryan Roman",
-                owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
-                location: { id: 1 }, // Eco Tec Foam And Coatings
+                sales_rep_name: "Sarha Hughes",
+                owners: [{ id: "ktvyzw07gmg4k8rwonyd16n" }], // Owner === "Sarha Hughes"
+                location: { id: 1 }, // Eco Tec
             },
             additionalJobFields: {
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
-                sales_rep_name: "Ryan Roman",
+                sales_rep_name: "Sarha Hughes",
                 record_type_name: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
-                owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
-                location: { id: 1 }, // Eco Tec Foam And Coatings
+                owners: [{ id: "ktvyzw07gmg4k8rwonyd16n" }], // Owner === "Sarha Hughes"
+                location: { id: 1 }, // Eco Tec
             },
             team: [
                 {
-                    name: "Ryan Roman",
-                    id: "kpwrz7poastl1hfqz2o6yix",
-                },
-                {
-                    name: "Chris Pendergast",
-                    id: "",
+                    name: "Sarha Hughes",
+                    id: "ktvyzw07gmg4k8rwonyd16n",
                 },
             ],
         },
