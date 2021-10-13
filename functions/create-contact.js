@@ -1,7 +1,14 @@
 require("dotenv").config();
 
 const AirtableApi = require("../src/api/Airtable");
-const Airtable = new AirtableApi(process.env.AIRTABLE_API);
+const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
+
+const JobNimbusApi = require("../src/api/JobNimbus");
+
+const HelperApi = require("../src/Helper");
+const Helper = new HelperApi();
+
+const clients = require("../src/clients");
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
