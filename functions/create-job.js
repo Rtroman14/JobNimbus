@@ -73,7 +73,7 @@ exports.handler = async (event) => {
                         };
 
                         const task = await JobNimbus.createTask(newTask);
-                        console.log("Created new contact:", task.title);
+                        console.log("Created new task:", task.title);
                     }
                 }
             }

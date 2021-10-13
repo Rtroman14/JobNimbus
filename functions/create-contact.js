@@ -36,6 +36,10 @@ exports.handler = async (event) => {
 
         const jnContact = await JobNimbus.createContact(contactFields);
 
+        if (jnContact) {
+            console.log("Created new contact:", jnContact.display_name);
+        }
+
         return {
             statusCode: 200,
             body: JSON.stringify({ jnContact }),
