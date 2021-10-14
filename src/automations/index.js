@@ -12,16 +12,16 @@ const Helpers = new HelpersApi();
 // const client = "All Area Roofing";
 // const baseID = "apps7T6bpqSy7XOfa";
 
-const client = "Eco Tec";
-const baseID = "appoNqmB15dMPPEXD";
+const client = "Roper";
+const baseID = "appr7rcKd3W6oMdiC";
 
 (async () => {
-    const jobNimbusURL = "https://jobnimbus.netlify.app/.netlify/functions";
-    const textJobLink = "%20Link%20-%20https://app.jobnimbus.com/job/{{jnid}}";
+    const JOBNIMBUS_URL = "https://jobnimbus.netlify.app/.netlify/functions";
+    const TEXT_JOB_LINK = "%20Link%20-%20https://app.jobnimbus.com/job/{{jnid}}";
 
-    const textURL = jobNimbusURL + "/send-text?client=" + Helpers.makeQuery(client);
-    const noteURL = jobNimbusURL + "/create-note?client=" + Helpers.makeQuery(client);
-    const highlevelURL = jobNimbusURL + "/highlevel?client=" + Helpers.makeQuery(client);
+    const textURL = JOBNIMBUS_URL + "/send-text?client=" + Helpers.makeQuery(client);
+    const noteURL = JOBNIMBUS_URL + "/create-note?client=" + Helpers.makeQuery(client);
+    const highlevelURL = JOBNIMBUS_URL + "/highlevel?client=" + Helpers.makeQuery(client);
 
     try {
         const automations = await Airtable.getAutomations("CRM - Automations", baseID);
@@ -43,7 +43,7 @@ const baseID = "appoNqmB15dMPPEXD";
 
                 const noteWebhook = `${noteURL}&note=${message}${noteReceiver}`;
 
-                const textWebhook = `${textURL}&body=${message}${textJobLink}${textReceiver}`;
+                const textWebhook = `${textURL}&body=${message}${TEXT_JOB_LINK}${textReceiver}`;
 
                 updatedFields = {
                     "Webhook - Text": textWebhook,
