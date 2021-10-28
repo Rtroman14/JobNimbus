@@ -3,7 +3,7 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
         {
             client: "Eco Tec",
             additionalContactFields: {
-                record_type_name: "Insulation Sales",
+                record_type_name: "Roof Coatings",
                 status_name: "Lead",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
