@@ -31,8 +31,7 @@ exports.handler = async (event) => {
                 contact = { ...contact, ...address };
             }
 
-            const accounts = await Airtable.getAccounts("JobNimbus Accounts", "Accounts");
-            const account = accounts.find((account) => account.Client === client);
+            const [account] = await Airtable.getAccount(client, "Account");
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
 
             // contact fields
@@ -74,7 +73,7 @@ exports.handler = async (event) => {
                         };
 
                         const task = await JobNimbus.createTask(newTask);
-                        console.log("Created new contact:", task.title);
+                        console.log("Created new task:", task.title);
                     }
                 }
             }

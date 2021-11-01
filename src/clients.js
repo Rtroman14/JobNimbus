@@ -1,34 +1,30 @@
 module.exports = (client, contact = { Research: "", Response: "" }) => {
     const clients = [
         {
-            client: "Eco Tec Foam And Coatings",
+            client: "Eco Tec",
             additionalContactFields: {
-                record_type_name: "Customer",
-                status_name: "Active",
+                record_type_name: "Roof Coatings",
+                status_name: "Lead",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
                 Service: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
-                sales_rep_name: "Ryan Roman",
-                owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
-                location: { id: 1 }, // Eco Tec Foam And Coatings
+                sales_rep_name: "Sarha Hughes",
+                owners: [{ id: "ktvyzw07gmg4k8rwonyd16n" }], // Owner === "Sarha Hughes"
+                location: { id: 1 }, // Eco Tec
             },
             additionalJobFields: {
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
-                sales_rep_name: "Ryan Roman",
+                sales_rep_name: "Sarha Hughes",
                 record_type_name: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
-                owners: [{ id: "kpwrz7poastl1hfqz2o6yix" }], // Owner === "Ryan Roman"
-                location: { id: 1 }, // Eco Tec Foam And Coatings
+                owners: [{ id: "ktvyzw07gmg4k8rwonyd16n" }], // Owner === "Sarha Hughes"
+                location: { id: 1 }, // Eco Tec
             },
             team: [
                 {
-                    name: "Ryan Roman",
-                    id: "kpwrz7poastl1hfqz2o6yix",
-                },
-                {
-                    name: "Chris Pendergast",
-                    id: "",
+                    name: "Sarha Hughes",
+                    id: "ktvyzw07gmg4k8rwonyd16n",
                 },
             ],
         },
@@ -97,6 +93,35 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 {
                     name: "Brent Roper",
                     id: "2ao08z",
+                },
+            ],
+        },
+        {
+            client: "All Area Roofing",
+            additionalContactFields: {
+                record_type_name: "Customer",
+                status_name: "Active",
+                Research: contact["First Line"] || contact["FIRST LINE"] || "",
+                Response: contact.Response || "",
+                source_name: "Summa Media",
+                // location: { id: 1 },
+            },
+            additionalJobFields: {
+                name: `${contact["First Name"] || ""} ${contact["Last Name"] || ""}`,
+                status_name: "Summa Lead",
+                record_type_name: "Commercial Replacement",
+                source_name: "Summa Media",
+                // location: { id: 1 },
+            },
+            scheduledCall: {
+                salesRep: "kqbfh28gdquulk9goto4ylv", // team member id who will be assigned to the task: New Lead - Follow Up
+                jobStatusName: "Lead Follow Up",
+            },
+            leadFollowUp: "kqbfh28gdquulk9goto4ylv", // team member id who will be assigned to the task: New Lead - Follow Up
+            team: [
+                {
+                    name: "Jennifer Richards",
+                    id: "kqbfh28gdquulk9goto4ylv",
                 },
             ],
         },
