@@ -27,7 +27,17 @@ exports.handler = async (event) => {
             const persons = await Airtable.getAccount(client, "Person");
 
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
-            const jnJob = await JobNimbus.getJob(jnid);
+            // const jnJob = await JobNimbus.getJob(jnid);
+
+            let jnJob;
+
+            if (type === "job") {
+                jnJob = await JobNimbus.getJob(jnid);
+            }
+
+            if (type === "contact") {
+                jnJob = await JobNimbus.getContact(jnid);
+            }
 
             if (jnJob === undefined || !jnJob) {
                 throw new Error(`Couldn't find job: ${jnid} for client: ${client}`);
