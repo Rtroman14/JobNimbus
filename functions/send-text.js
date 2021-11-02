@@ -15,7 +15,7 @@ exports.handler = async (event) => {
         };
     } else if (event.httpMethod === "POST") {
         const res = JSON.parse(event.body);
-        let { jnid, sales_rep_name } = JSON.parse(event.body);
+        let { jnid, sales_rep_name, type } = JSON.parse(event.body);
         let { client, body, recipient } = event.queryStringParameters;
 
         try {
