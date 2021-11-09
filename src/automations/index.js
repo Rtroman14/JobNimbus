@@ -12,8 +12,11 @@ const Helpers = new HelpersApi();
 // const client = "All Area Roofing";
 // const baseID = "apps7T6bpqSy7XOfa";
 
-const client = "Eco Tec";
-const baseID = "appoNqmB15dMPPEXD";
+// const client = "Eco Tec";
+// const baseID = "appoNqmB15dMPPEXD";
+
+const client = "Roper Roofing";
+const baseID = "appr7rcKd3W6oMdiC";
 
 (async () => {
     const JOBNIMBUS_URL = "https://jobnimbus.netlify.app/.netlify/functions";
@@ -60,8 +63,6 @@ const baseID = "appoNqmB15dMPPEXD";
             }
 
             await Airtable.updateContact(baseID, automation.recordID, updatedFields);
-
-            await Helpers.minutesWait(0.005);
         }
     } catch (error) {
         console.log(error.message);
