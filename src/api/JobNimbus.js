@@ -62,6 +62,18 @@ module.exports = class JobNimbusApi {
         }
     }
 
+    async getAllContacts() {
+        try {
+            const config = this.getConfig("get", "contacts");
+
+            const { data } = await axios(config);
+
+            return data;
+        } catch (error) {
+            console.log("ERROR GETALLCONTACTs ---", error);
+        }
+    }
+
     async createContact(contact) {
         try {
             const config = this.getConfig("post", "contacts", contact);
@@ -97,6 +109,19 @@ module.exports = class JobNimbusApi {
             return data;
         } catch (error) {
             console.log("ERROR GETJOB ---", error);
+            return false;
+        }
+    }
+
+    async getAllJobs() {
+        try {
+            const config = this.getConfig("get", "jobs");
+
+            const { data } = await axios(config);
+
+            return data;
+        } catch (error) {
+            console.log("ERROR GETALLJOBS ---", error);
             return false;
         }
     }

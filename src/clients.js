@@ -1,4 +1,4 @@
-module.exports = (client, contact = { Research: "", Response: "" }) => {
+module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => {
     const clients = [
         {
             client: "Eco Tec",
@@ -74,15 +74,15 @@ module.exports = (client, contact = { Research: "", Response: "" }) => {
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
                 source_name: "Summa Media",
-                location: { id: 1 },
+                location: { id: contact.Tag === "austin" ? 2 : 1 },
             },
             additionalJobFields: {
                 name: `${contact["First Name"] || ""} ${contact["Last Name"] || ""}`,
                 status_name: "Lead",
-                // sales_rep_name: "",
+                sales_rep_name: contact.Tag === "austin" ? "Johno Skeeters" : null,
                 record_type_name: "Residential Roofing",
                 source_name: "Summa Media",
-                location: { id: 1 },
+                location: { id: contact.Tag === "austin" ? 2 : 1 },
             },
             scheduledCall: {
                 salesRep: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up
