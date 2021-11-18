@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const { recordID, baseID, client } = JSON.parse(event.body);
 
-        let contact = await Airtable.getContact(baseID, recordID);
+        let contact = await Airtable.getContact(baseID, "Prospects", recordID);
         const { additionalContactFields } = clients(client, contact);
 
         if (!("Street" in contact)) {

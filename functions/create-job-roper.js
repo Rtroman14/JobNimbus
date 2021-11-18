@@ -20,11 +20,16 @@ exports.handler = async (event) => {
         const { recordID, baseID, client } = JSON.parse(event.body);
 
         try {
-            let contact = await Airtable.getContact(baseID, "Prospects", recordID);
-            const { additionalContactFields, additionalJobFields, scheduledCall } = clients(
-                client,
-                contact
-            );
+            let contact = await Airtable.getContact(baseID, "JobNimbus Contact Form", recordID);
+            let { additionalContactFields, additionalJobFields } = clients(client, contact);
+
+            additionalContactFields = { ...additionalContactFields, source_name: "Door Knocking" };
+            additionalJobFields = {
+                ...additionalJobFields,
+                name: contact["Full Name"],
+                source_name: "Door Knocking",
+                sales_rep_name: contact.State === "Texas" ? "Johno Skeeters" : "Brent Roper",
+            };
 
             if (!("Street" in contact)) {
                 const address = await Helper.getAddress(contact.Address);
@@ -47,28 +52,30 @@ exports.handler = async (event) => {
                 const baseJob = JobNimbus.baseJob(jnContact);
                 let jobFields = { ...baseJob, ...additionalJobFields };
 
-                if ("Scheduled Call" in contact) {
-                    jobFields = { ...jobFields, status_name: scheduledCall.jobStatusName };
-                }
-
                 const jnJob = await JobNimbus.createJob(jobFields);
 
                 if (jnJob) {
                     console.log("Created new job:", jnJob.name);
 
-                    if ("Scheduled Call" in contact) {
-                        const scheduledCallDate = new Date(contact["Scheduled Call"]);
+                    if ("Appointment" in contact) {
+                        const scheduledCallDate = new Date(contact.Appointment);
 
                         // NOTE: MUST dissable GMT in Airtable
                         // NOTE: related only uses the first instance
                         const newTask = {
                             record_type_name: "New Lead",
-                            title: "New Lead - Follow Up",
-                            description: `${jnContact.display_name} wishes to be contacted on the date/time provided.`,
+                            title: "From Door Knocking",
                             related: [{ id: jnContact.jnid }], // contact id - shows up under job
                             date_start: scheduledCallDate.getTime(),
                             date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
-                            owners: [{ id: scheduledCall.salesRep }],
+                            owners: [
+                                {
+                                    id:
+                                        contact.State === "Texas"
+                                            ? "kupvda4p80otk256vujlake"
+                                            : "2ao08z",
+                                },
+                            ],
                             priority: 1,
                         };
 

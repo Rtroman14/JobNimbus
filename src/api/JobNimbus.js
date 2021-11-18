@@ -159,9 +159,9 @@ module.exports = class JobNimbusApi {
 
     baseContact(contact) {
         return {
-            display_name: contact["Full Name"],
-            first_name: contact["First Name"],
-            last_name: contact["Last Name"],
+            display_name: contact["Full Name"] || "",
+            first_name: contact["First Name"] || "",
+            last_name: contact["Last Name"] || "",
             company: contact["Company Name"] || "",
             email: contact.Email || "",
             mobile_phone: contact["Phone Number"] || "",

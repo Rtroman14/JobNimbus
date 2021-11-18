@@ -17,11 +17,11 @@ module.exports = class AirtableApi {
         }
     }
 
-    async getContact(baseID, recordID) {
+    async getContact(baseID, table, recordID) {
         try {
             const base = await this.config(baseID);
 
-            const res = await base("Prospects").find(recordID);
+            const res = await base(table).find(recordID);
 
             return res.fields;
         } catch (error) {

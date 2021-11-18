@@ -12,7 +12,7 @@ exports.handler = async (event) => {
     } else if (event.httpMethod === "POST") {
         const { recordID, baseID } = JSON.parse(event.body);
 
-        const contact = await Airtable.getContact(baseID, recordID);
+        const contact = await Airtable.getContact(baseID, "Prospects", recordID);
 
         // push contact to jobnimbus
 
