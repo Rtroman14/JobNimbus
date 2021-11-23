@@ -73,6 +73,10 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Response: contact.Response || "",
+                sales_rep_name:
+                    contact.Tag === "austin" || contact.State === "Texas"
+                        ? "Johno Skeeters"
+                        : "Brent Roper",
                 source_name: "Summa Media",
                 location: { id: contact.Tag === "austin" || contact.State === "Texas" ? 2 : 1 },
             },
@@ -80,7 +84,9 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""} `,
                 status_name: "Lead",
                 sales_rep_name:
-                    contact.Tag === "austin" || contact.State === "Texas" ? "Johno Skeeters" : null,
+                    contact.Tag === "austin" || contact.State === "Texas"
+                        ? "Johno Skeeters"
+                        : "Brent Roper",
                 record_type_name: "Residential Roofing",
                 source_name: "Summa Media",
                 location: { id: contact.Tag === "austin" || contact.State === "Texas" ? 2 : 1 },
