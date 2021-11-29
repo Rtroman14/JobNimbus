@@ -26,7 +26,7 @@ exports.handler = async (event) => {
                 contact
             );
 
-            if (!("Street" in contact)) {
+            if (!("Street" in contact) && "Address" in contact) {
                 const address = await Helper.getAddress(contact.Address);
                 contact = { ...contact, ...address };
             }

@@ -15,76 +15,17 @@ const clients = require("./src/clients");
 
 (async () => {
     const { recordID, baseID, client } = {
-        recordID: "recBtxbapF6fQQ5SW",
-        baseID: "appr7rcKd3W6oMdiC",
-        client: "Roper Roofing",
+        recordID: "recXzrkUR0v29snZi",
+        baseID: "appjT6md6Csoncsjr",
+        client: "I Am Roofing",
     };
 
     try {
-        let contact = await Airtable.getContact(baseID, "JobNimbus Contact Form", recordID);
-        let { additionalContactFields, additionalJobFields } = clients(client, contact);
+        let contact = await Airtable.getContact(baseID, "Prospects", recordID);
+        // delete contact.Zip;
+        let foundContact = clients(client, contact);
 
-        additionalContactFields = { ...additionalContactFields, source_name: "Door Knocking" };
-        additionalJobFields = {
-            ...additionalJobFields,
-            name: contact["Full Name"],
-            source_name: "Door Knocking",
-            sales_rep_name: contact.State === "Texas" ? "Johno Skeeters" : "Brent Roper",
-        };
-
-        if (!("Street" in contact)) {
-            const address = await Helper.getAddress(contact.Address);
-            contact = { ...contact, ...address };
-        }
-
-        const [account] = await Airtable.getAccount(client, "Account");
-        const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
-
-        // contact fields
-        const baseContact = JobNimbus.baseContact(contact);
-        const contactFields = { ...baseContact, ...additionalContactFields };
-
-        const jnContact = await JobNimbus.createContact(contactFields);
-
-        if (jnContact) {
-            console.log("Created new contact:", jnContact.display_name);
-
-            // job fields
-            const baseJob = JobNimbus.baseJob(jnContact);
-            let jobFields = { ...baseJob, ...additionalJobFields };
-
-            const jnJob = await JobNimbus.createJob(jobFields);
-
-            if (jnJob) {
-                console.log("Created new job:", jnJob.name);
-
-                if ("Appointment" in contact) {
-                    const scheduledCallDate = new Date(contact.Appointment);
-
-                    // NOTE: MUST dissable GMT in Airtable
-                    // NOTE: related only uses the first instance
-                    const newTask = {
-                        record_type_name: "New Lead",
-                        title: "From Door Knocking",
-                        related: [{ id: jnContact.jnid }], // contact id - shows up under job
-                        date_start: scheduledCallDate.getTime(),
-                        date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
-                        owners: [
-                            {
-                                id:
-                                    contact.State === "Texas"
-                                        ? "kupvda4p80otk256vujlake"
-                                        : "2ao08z",
-                            },
-                        ],
-                        priority: 1,
-                    };
-
-                    const task = await JobNimbus.createTask(newTask);
-                    console.log("Created new task:", task.title);
-                }
-            }
-        }
+        console.log(foundContact.additionalJobFields.sales_rep_name);
     } catch (error) {
         console.log(error);
     }
