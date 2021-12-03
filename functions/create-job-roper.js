@@ -23,11 +23,14 @@ exports.handler = async (event) => {
             let contact = await Airtable.getContact(baseID, "JobNimbus Contact Form", recordID);
             let { additionalContactFields, additionalJobFields } = clients(client, contact);
 
-            additionalContactFields = { ...additionalContactFields, source_name: "Door Knocking" };
+            additionalContactFields = {
+                ...additionalContactFields,
+                source_name: "Micheal Beshears",
+            };
             additionalJobFields = {
                 ...additionalJobFields,
                 name: contact["Full Name"],
-                source_name: "Door Knocking",
+                source_name: "Micheal Beshears",
                 sales_rep_name: contact.State === "Texas" ? "Johno Skeeters" : "Brent Roper",
             };
 
@@ -64,7 +67,7 @@ exports.handler = async (event) => {
                         // NOTE: related only uses the first instance
                         const newTask = {
                             record_type_name: "New Lead",
-                            title: "From Door Knocking",
+                            title: "From Micheal Beshears",
                             related: [{ id: jnContact.jnid }], // contact id - shows up under job
                             date_start: scheduledCallDate.getTime(),
                             date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
