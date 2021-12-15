@@ -57,9 +57,10 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
             additionalJobFields: {
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
                 status_name: "Summa Lead",
-                sales_rep_name: southALZips.includes(Number(contact.Zip))
-                    ? "Katie Hagan"
-                    : "Josh Knight",
+                sales_rep_name: "Angela Ford",
+                // sales_rep_name: southALZips.includes(Number(contact.Zip))
+                //     ? "Katie Hagan"
+                //     : "Josh Knight",
                 record_type_name: "Residential Replacement",
                 source_name: "Summa Media",
                 location: { id: 1 }, // I Am Roofing
