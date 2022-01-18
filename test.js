@@ -13,26 +13,27 @@ const Helper = new HelperApi();
 
 (async () => {
     try {
-        const client = "All Area Roofing";
+        let contactFields = {
+            record_type_name: "string",
+            status_name: "string",
+            Research: "any",
+            Response: "string",
+            Service: "7152525716",
+            source_name: "string",
+            sales_rep_name: "string",
+            owners: [{ id: "string" }],
+            location: {
+                id: 123,
+            },
+        };
 
-        const [account] = await Airtable.getAccount(client, "Account");
-        const persons = await Airtable.getAccount(client, "Person");
+        for (let key in contactFields) {
+            if (typeof contactFields[key] === "string") {
+                contactFields[key] = contactFields[key].toUpperCase();
+            }
+        }
 
-        console.log(account);
-        console.log(persons);
-
-        const twilio = require("twilio")(
-            account["Twilio Account SID"],
-            account["Twilio Auth Token"]
-        );
-
-        const message = await twilio.messages.create({
-            body: "This is a test",
-            from: account["Phone Number"],
-            to,
-        });
-
-        console.log(message);
+        console.log(contactFields);
     } catch (error) {
         console.log(error);
     }

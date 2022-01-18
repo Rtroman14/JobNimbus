@@ -35,12 +35,27 @@ exports.handler = async (event) => {
             const JobNimbus = new JobNimbusApi(account["JobNimbus API Key"]);
 
             // contact fields
-            const baseContact = JobNimbus.baseContact(contact);
+            let baseContact = JobNimbus.baseContact(contact);
+
+            // uppercase all base contact fields
+            if (client === "All Area Roofing") {
+                for (let key in baseContact) {
+                    if (typeof baseContact[key] === "string") {
+                        baseContact[key] = baseContact[key].toUpperCase();
+                    }
+                }
+            }
+
             const contactFields = { ...baseContact, ...additionalContactFields };
 
             const jnContact = await JobNimbus.createContact(contactFields);
 
             if (jnContact) {
+                // Create note if response
+                if ("Response" in contact) {
+                    await JobNimbus.createNote(jnContact.jnid, `Response: ${contact.Response}`);
+                }
+
                 console.log("Created new contact:", jnContact.display_name);
 
                 // job fields
