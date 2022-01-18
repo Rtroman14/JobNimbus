@@ -14,7 +14,7 @@ const southALZips = [
     36538, 36451,
 ];
 
-module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => {
+module.exports = (client, contact = { Research: "", Tag: "" }) => {
     const clients = [
         {
             client: "Eco Tec",
@@ -22,7 +22,6 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
                 record_type_name: "Roof Coatings",
                 status_name: "Lead",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
-                Response: contact.Response || "",
                 Service: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
                 sales_rep_name: "Sarha Hughes",
@@ -50,7 +49,6 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
                 record_type_name: "Customer",
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
-                Response: contact.Response || "",
                 source_name: "Summa Media",
                 location: { id: 1 }, // I Am Roofing
             },
@@ -91,7 +89,6 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
                 record_type_name: "Customers",
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
-                Response: contact.Response || "",
                 sales_rep_name:
                     contact.Tag === "austin" || contact.State === "Texas"
                         ? "Johno Skeeters"
@@ -126,7 +123,6 @@ module.exports = (client, contact = { Research: "", Response: "", Tag: "" }) => 
                 record_type_name: "Customer",
                 status_name: "Active",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
-                // Response: contact.Response || "",
                 source_name: "Summa Media",
                 // location: { id: 1 },
             },
