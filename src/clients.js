@@ -127,8 +127,8 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 // location: { id: 1 },
             },
             additionalJobFields: {
-                name: `${contact["First Name"].toUpperCase() || ""} ${
-                    contact["Last Name"].toUpperCase() || ""
+                name: `${contact["First Name"]?.toUpperCase() || ""} ${
+                    contact["Last Name"]?.toUpperCase() || ""
                 }`,
                 status_name: "Summa Lead",
                 record_type_name: "Commercial Replacement",
