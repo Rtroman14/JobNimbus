@@ -15,7 +15,7 @@ const clients = require("./src/clients");
 
 (async () => {
     const { recordID, baseID, client } = {
-        recordID: "reczHwus3Q8IgxLOi",
+        recordID: "recKkoxKZc06qkIIU",
         baseID: "appr7rcKd3W6oMdiC",
         client: "Roper Roofing",
     };
@@ -30,7 +30,7 @@ const clients = require("./src/clients");
         };
         additionalJobFields = {
             ...additionalJobFields,
-            name: contact["Full Name"],
+            name: contact.Street || contact["Full Name"],
             source_name: "Micheal Beshears",
             sales_rep_name: contact.State === "Texas" ? "Johno Skeeters" : "Brent Roper",
         };
