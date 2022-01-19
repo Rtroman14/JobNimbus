@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const moment = require("moment");
+const axios = require("axios");
 
 const AirtableApi = require("./src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
@@ -14,7 +15,7 @@ const clients = require("./src/clients");
 
 (async () => {
     const { recordID, baseID, client } = {
-        recordID: "rec5jhrULpDlJttw2",
+        recordID: "reczHwus3Q8IgxLOi",
         baseID: "appr7rcKd3W6oMdiC",
         client: "Roper Roofing",
     };
@@ -91,27 +92,3 @@ const clients = require("./src/clients");
         console.log(error);
     }
 })();
-
-// (async () => {
-//     const body = {
-//         recordID: "rec5jhrULpDlJttw2",
-//         baseID: "appr7rcKd3W6oMdiC",
-//         client: "Roper Roofing",
-//     };
-
-//     try {
-//         const response = await fetch(
-//             "https://jobnimbus.netlify.app/.netlify/functions/create-job-roper",
-//             {
-//                 method: "POST",
-//                 body: JSON.stringify(body),
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//             }
-//         );
-//         console.log(response);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// })();
