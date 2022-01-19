@@ -29,7 +29,7 @@ exports.handler = async (event) => {
             };
             additionalJobFields = {
                 ...additionalJobFields,
-                name: contact["Full Name"],
+                name: contact.Street || contact["Full Name"],
                 source_name: "Micheal Beshears",
                 sales_rep_name: contact.State === "Texas" ? "Johno Skeeters" : "Brent Roper",
             };

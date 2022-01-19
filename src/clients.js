@@ -97,7 +97,8 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 location: { id: contact.Tag === "austin" || contact.State === "Texas" ? 2 : 1 },
             },
             additionalJobFields: {
-                name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""} `,
+                // name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""} `,
+                name: `${contact.Street || contact["Last Name"] + " " + contact["First Name"]}`,
                 status_name: "Lead",
                 sales_rep_name:
                     contact.Tag === "austin" || contact.State === "Texas"
