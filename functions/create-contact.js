@@ -38,6 +38,12 @@ exports.handler = async (event) => {
 
         if (jnContact) {
             console.log("Created new contact:", jnContact.display_name);
+
+            await JobNimbus.createNote(jnContact.jnid, `Response: ${contact.Response} (Summa)`);
+
+            if ("Notes" in contact) {
+                await JobNimbus.createNote(jnContact.jnid, `${contact.Notes} (Summa)`);
+            }
         }
 
         return {

@@ -169,7 +169,7 @@ module.exports = class JobNimbusApi {
             city: contact.City || "",
             state_text: contact.State || "",
             zip: contact.Zip || "",
-            description: contact.Notes || "",
+            // description: contact.Notes || "",
         };
     }
 
