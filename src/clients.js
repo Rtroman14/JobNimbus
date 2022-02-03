@@ -24,13 +24,13 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Service: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
-                sales_rep_name: "Sarha Hughes",
+                sales_rep_name: "David Backes",
                 owners: [{ id: "ktvyzw07gmg4k8rwonyd16n" }], // Owner === "Sarha Hughes"
                 location: { id: 1 }, // Eco Tec
             },
             additionalJobFields: {
                 name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""}`,
-                sales_rep_name: "Sarha Hughes",
+                sales_rep_name: "David Backes",
                 record_type_name: "Roof Coatings",
                 source_name: "Summa Media - Outreach Program",
                 owners: [{ id: "ktvyzw07gmg4k8rwonyd16n" }], // Owner === "Sarha Hughes"
