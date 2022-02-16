@@ -117,6 +117,10 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 { name: "Brent Roper", id: "2ao08z" },
                 { name: "Johno Skeeters", id: "kupvda4p80otk256vujlake" },
             ],
+            task: {
+                title: "From Micheal Beshears",
+                typeName: "New Lead",
+            },
         },
         {
             client: "All Area Roofing",
@@ -151,37 +155,29 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
         {
             client: "EXP Contractors",
             additionalContactFields: {
-                record_type_name: "Customers",
-                status_name: "Active",
-                Research: contact["First Line"] || contact["FIRST LINE"] || "",
-                sales_rep_name:
-                    contact.Tag === "austin" || contact.State === "Texas"
-                        ? "Johno Skeeters"
-                        : "Brent Roper",
-                source_name: "Summa Media",
-                location: { id: contact.Tag === "austin" || contact.State === "Texas" ? 2 : 1 },
+                record_type_name: contact["Job Type"],
+                status_name: "Lead",
+                sales_rep_name: "Tony Jackson",
+                source_name: "Lead Source" in contact ? contact["Lead Source"] : "Summa Media",
             },
             additionalJobFields: {
-                // name: `${contact["Last Name"] || ""}, ${contact["First Name"] || ""} `,
                 name: `${contact.Street || contact["Last Name"] + " " + contact["First Name"]}`,
                 status_name: "Lead",
-                sales_rep_name:
-                    contact.Tag === "austin" || contact.State === "Texas"
-                        ? "Johno Skeeters"
-                        : "Brent Roper",
-                record_type_name: "Residential Roofing",
+                sales_rep_name: "Tony Jackson",
+                record_type_name: "",
                 source_name: "Summa Media",
-                location: { id: contact.Tag === "austin" || contact.State === "Texas" ? 2 : 1 },
+                location: 1,
             },
             scheduledCall: {
-                salesRep: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up
-                jobStatusName: "Lead Follow Up",
+                salesRep: "", // team member id who will be assigned to the task: New Lead - Follow Up
+                jobStatusName: "",
             },
-            leadFollowUp: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up
-            team: [
-                { name: "Brent Roper", id: "2ao08z" },
-                { name: "Johno Skeeters", id: "kupvda4p80otk256vujlake" },
-            ],
+            leadFollowUp: "38t41a", // team member id who will be assigned to the task: New Lead - Follow Up
+            team: [{ name: "Tony Jackson", id: "38t41a" }],
+            task: {
+                title: "New Lead",
+                typeName: "New Lead",
+            },
         },
     ];
 

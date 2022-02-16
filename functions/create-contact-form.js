@@ -21,12 +21,11 @@ exports.handler = async (event) => {
 
         try {
             let contact = await Airtable.getContact(baseID, "JobNimbus Contact Form", recordID);
-            let { additionalContactFields } = clients(client, contact);
+            let { additionalContactFields, task } = clients(client, contact);
 
             additionalContactFields = {
                 ...additionalContactFields,
-                source_name: "Micheal Beshears",
-                sales_rep_name: contact.State === "Texas" ? "Johno Skeeters" : "Brent Roper",
+                source_name: client === "Roper Roofing" ? "Micheal Beshears" : "",
                 display_name: `${contact["First Name"]} ${contact["Last Name"]}`,
             };
 
@@ -53,24 +52,26 @@ exports.handler = async (event) => {
                     // NOTE: MUST dissable GMT in Airtable
                     // NOTE: related only uses the first instance
                     const newTask = {
-                        record_type_name: "New Lead",
-                        title: "From Micheal Beshears",
+                        record_type_name: task.typeName,
+                        title: task.title,
                         related: [{ id: jnContact.jnid }], // contact id - shows up under job
                         date_start: scheduledCallDate.getTime(),
                         date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
                         owners: [
                             {
                                 id:
-                                    contact.State === "Texas"
-                                        ? "kupvda4p80otk256vujlake"
-                                        : "2ao08z",
+                                    client === "Roper Roofing"
+                                        ? contact.State === "Texas"
+                                            ? "kupvda4p80otk256vujlake"
+                                            : "2ao08z"
+                                        : "38t41a",
                             },
                         ],
                         priority: 1,
                     };
 
-                    const task = await JobNimbus.createTask(newTask);
-                    console.log("Created new task:", task.title);
+                    const jnTask = await JobNimbus.createTask(newTask);
+                    console.log("Created new task:", jnTask.title);
                 }
             }
 
