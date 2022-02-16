@@ -25,7 +25,7 @@ exports.handler = async (event) => {
 
             additionalContactFields = {
                 ...additionalContactFields,
-                source_name: client === "Roper Roofing" ? "Micheal Beshears" : "",
+                // source_name: client === "Roper Roofing" ? "Micheal Beshears" : "",
                 display_name: `${contact["First Name"]} ${contact["Last Name"]}`,
             };
 
