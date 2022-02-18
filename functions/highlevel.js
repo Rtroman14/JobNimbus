@@ -120,6 +120,28 @@ exports.handler = async (event) => {
                 }
             }
 
+            if (res.type === "contact") {
+                // get contacts res.related to job
+                const jnContact = await JobNimbus.getContact(res.jnid);
+
+                const addedToCampaign = await Highlevel.jnToHlCampaign(
+                    jnContact,
+                    hlCampaign["Campaign ID"]
+                );
+
+                if (addedToCampaign) {
+                    console.log(
+                        `\nClient = ${client} \nCampaign = ${campaign} \nContact = ${jnContact.display_name}`
+                    );
+
+                    const createdNote = await JobNimbus.createNote(
+                        res.jnid,
+                        `Pushed ${jnContact.display_name} to '${campaign}' campaign`
+                    );
+                    console.log(`\nClient: ${client} \nNote: ${createdNote.note}`);
+                }
+            }
+
             return {
                 statusCode: 200,
                 body: JSON.stringify({ msg: "Pushed contact to HL campaign" }),
