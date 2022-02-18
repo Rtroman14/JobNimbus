@@ -157,7 +157,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
             additionalContactFields: {
                 record_type_name: contact["Job Type"],
                 status_name: "Lead",
-                sales_rep_name: "Tony Jackson",
+                sales_rep_name: contact["Sales Rep"],
                 source_name: "Lead Source" in contact ? contact["Lead Source"] : "Summa Media",
             },
             additionalJobFields: {
