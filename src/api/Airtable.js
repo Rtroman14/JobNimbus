@@ -30,6 +30,26 @@ module.exports = class AirtableApi {
         }
     }
 
+    async getContacts(baseID, table, view) {
+        try {
+            const base = await this.config(baseID);
+
+            const records = await base(table).select({ view }).all();
+
+            const contacts = records.map((record) => {
+                return {
+                    ...record.fields,
+                    recordID: record.getId(),
+                };
+            });
+
+            return contacts;
+        } catch (error) {
+            console.log("getContacts() ---", error);
+            return false;
+        }
+    }
+
     async getAutomations(table, baseID) {
         try {
             const base = await this.config(baseID);
@@ -50,11 +70,13 @@ module.exports = class AirtableApi {
         }
     }
 
-    async updateContact(baseID, recordID, updatedFields) {
+    async updateContact(baseID, table, recordID, updatedFields) {
+        // async updateContact(baseID, recordID, updatedFields) {
         try {
             const base = await this.config(baseID);
 
-            await base("CRM - Automations").update(recordID, updatedFields);
+            await base(table).update(recordID, updatedFields);
+            // await base("CRM - Automations").update(recordID, updatedFields);
         } catch (error) {
             console.log("ERROR UPDATECONTACT() ---", error);
         }

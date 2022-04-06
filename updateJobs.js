@@ -1,96 +1,83 @@
 require("dotenv").config();
 
-const axios = require("axios");
+const AirtableApi = require("./src/api/Airtable");
+const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const JobNimbusApi = require("./src/api/JobNimbus");
-const JobNimbus = new JobNimbusApi("kpih52lhy128g744");
+const JobNimbus = new JobNimbusApi("l16twhzwgho855k2");
 
 const HelperApi = require("./src/Helper");
 const Helper = new HelperApi();
 
+const toCapitalize = (string) => {
+    return string
+        .split(" ")
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(" ");
+};
+
+const baseID = "appCQqxgfJNVhy5WE";
+const table = "Old CRM";
+
 (async () => {
     try {
-        const jnJobs = await JobNimbus.getAllJobs();
-        const contacts = await JobNimbus.getAllContacts();
+        const jnContacts = await JobNimbus.getAllContacts();
 
-        // const jnJob = await JobNimbus.getJob("kvmsemok8wc53ih8joe0nav");
-        // console.log(jnJob);
+        const contacts = await Airtable.getContacts(baseID, table, "Grid view");
 
-        const contactsWithJobs = jnJobs.results.map((job) => job.primary.id);
+        for (let contact of contacts) {
+            const foundJnContact = jnContacts.results.find(
+                (jnContact) =>
+                    jnContact.display_name.toLowerCase() === contact["JOB NAME"].toLowerCase()
+            );
 
-        const contactsWithoutJobs = contacts.results.filter(
-            (contact) => !contactsWithJobs.includes(contact.jnid)
-        );
+            if (foundJnContact) {
+                let name = toCapitalize(contact.STREET.toLowerCase());
 
-        const arrayOfContactsWithoutJobs = contactsWithoutJobs.map((contact) => {
-            const jobFields = {
-                record_type_name: "Job",
-                status_name: contact.status_name,
-                description: contact.description,
-                primary: {
-                    id: contact.jnid,
-                },
-                address_line1: contact.address_line1,
-                address_line2: contact.address_line2,
-                city: contact.city,
-                state_text: contact.state_text,
-                zip: contact.zip,
-                name: contact.display_name,
-                sales_rep_name: contact.sales_rep_name,
-                record_type_name:
-                    contact.record_type_name === "Insulation Sales"
-                        ? "Insulation"
-                        : contact.record_type_name,
-                source_name: contact.source_name,
-                owners: contact.owners,
-                location: contact.location,
-                Confidence: contact.Confidence,
-                Service: contact.Service,
-            };
+                if ("AREA OF BUILDING COVERED" in contact) {
+                    name = `${name} - ${toCapitalize(
+                        contact["AREA OF BUILDING COVERED"].toLowerCase()
+                    )} (2)`;
+                } else {
+                    name = `${name} (2)`;
+                }
 
-            return JobNimbus.createJob(jobFields);
-        });
+                let type = "Commercial";
 
-        const res = await Promise.all(arrayOfContactsWithoutJobs);
-        console.log(res);
+                if (contact["JOB NAME"].includes("RESIDENCE")) {
+                    type = "Residential";
+                }
 
-        // // for each contact --> create job and assign contact
-        // for (let contact of contactsWithoutJobs) {
-        //     const jobFields = {
-        //         record_type_name: "Job",
-        //         status_name: contact.status_name,
-        //         description: contact.description,
-        //         primary: {
-        //             id: contact.jnid,
-        //         },
-        //         address_line1: contact.address_line1,
-        //         address_line2: contact.address_line2,
-        //         city: contact.city,
-        //         state_text: contact.state_text,
-        //         zip: contact.zip,
-        //         name: contact.display_name,
-        //         sales_rep_name: contact.sales_rep_name,
-        //         record_type_name:
-        //             contact.record_type_name === "Insulation Sales"
-        //                 ? "Insulation"
-        //                 : contact.record_type_name,
-        //         source_name: contact.source_name,
-        //         owners: contact.owners,
-        //         location: contact.location,
-        //         Confidence: contact.Confidence,
-        //         Service: contact.Service,
-        //     };
+                const jnJob = await JobNimbus.createJob({
+                    name,
+                    record_type_name: type,
+                    status_name: contact["Paid In Full"],
+                    primary: {
+                        id: foundJnContact.jnid,
+                    },
+                    // address
+                    address_line1: toCapitalize(contact.STREET.toLowerCase()) || "",
+                    city: toCapitalize(contact.CITY.toLowerCase()) || "",
+                    state_text: toCapitalize(contact.STATE.toLowerCase()) || "",
+                    zip: contact["ZIP CODE"] || "",
+                    "Warranty Date":
+                        new Date(contact["WTY DATE"]).getTime() / 1000 + 86400000 / 1000,
+                });
 
-        //     try {
-        //         const jnJob = await JobNimbus.createJob(jobFields);
-        //         console.log(`Created job: ${jnJob.jnid}`);
-        //     } catch (error) {
-        //         console.log("Error creating job -", error);
-        //     }
-        // }
+                if (jnJob) {
+                    console.log(`Created job: ${jnJob.name}`);
+
+                    await Airtable.updateContact(baseID, table, contact.recordID, {
+                        Status: "Success",
+                    });
+                } else {
+                    await Airtable.updateContact(baseID, table, contact.recordID, {
+                        Status: "Error",
+                    });
+                }
+            }
+        }
     } catch (error) {
         console.log(error);
     }
 })();
-
-// https://documenter.getpostman.com/view/3919598/S11PpG4x?version=latest#7ec1541f-7241-4840-9322-0ed83c01d48e

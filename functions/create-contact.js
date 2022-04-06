@@ -44,6 +44,26 @@ exports.handler = async (event) => {
             if ("Notes" in contact) {
                 await JobNimbus.createNote(jnContact.jnid, `${contact.Notes} (Summa)`);
             }
+
+            if ("Scheduled Call" in contact) {
+                const scheduledCallDate = new Date(contact["Scheduled Call"]);
+
+                // NOTE: MUST dissable GMT in Airtable
+                // NOTE: related only uses the first instance
+                const newTask = {
+                    record_type_name: "New Lead",
+                    title: "New Lead - Follow Up",
+                    description: `${jnContact.display_name} wishes to be contacted on the date/time provided.`,
+                    related: [{ id: jnContact.jnid }], // contact id - shows up under job
+                    date_start: scheduledCallDate.getTime(),
+                    date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
+                    // owners: [{ id: scheduledCall.salesRep }],
+                    priority: 1,
+                };
+
+                const task = await JobNimbus.createTask(newTask);
+                console.log("Created new task:", task.title);
+            }
         }
 
         return {
