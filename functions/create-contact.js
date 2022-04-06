@@ -17,7 +17,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        const { recordID, baseID, client } = JSON.parse(event.body);
+        const { recordID, baseID, clientm, scheduledCall } = JSON.parse(event.body);
 
         let contact = await Airtable.getContact(baseID, "Prospects", recordID);
         const { additionalContactFields } = clients(client, contact);
@@ -57,7 +57,7 @@ exports.handler = async (event) => {
                     related: [{ id: jnContact.jnid }], // contact id - shows up under job
                     date_start: scheduledCallDate.getTime(),
                     date_end: scheduledCallDate.setHours(scheduledCallDate.getHours() + 1),
-                    // owners: [{ id: scheduledCall.salesRep }],
+                    owners: [{ id: scheduledCall?.salesRep || "" }],
                     priority: 1,
                 };
 

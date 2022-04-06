@@ -109,7 +109,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 location: { id: contact.Tag === "austin" || contact.State === "Texas" ? 2 : 1 },
             },
             scheduledCall: {
-                salesRep: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up
+                salesRep: "", // team member id who will be assigned to the task: New Lead - Follow Up
                 jobStatusName: "Lead Follow Up",
             },
             leadFollowUp: "2ao08z", // team member id who will be assigned to the task: New Lead - Follow Up

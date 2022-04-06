@@ -18,8 +18,13 @@ const Helpers = new HelpersApi();
 // const client = "EXP Contractors";
 // const baseID = "app887rsD9oKqWpSA";
 
-const client = "Kairos";
-const baseID = "app0jueDK8nMCrhQi";
+// const client = "Kairos";
+// const baseID = "app0jueDK8nMCrhQi";
+
+const client = "Brent Roper";
+const baseID = "appr7rcKd3W6oMdiC";
+
+const table = "CRM - Automations";
 
 (async () => {
     const JOBNIMBUS_URL = "https://jobnimbus.netlify.app/.netlify/functions";
@@ -30,7 +35,7 @@ const baseID = "app0jueDK8nMCrhQi";
     const highlevelURL = JOBNIMBUS_URL + "/highlevel?client=" + Helpers.makeQuery(client);
 
     try {
-        const automations = await Airtable.getAutomations("CRM - Automations", baseID);
+        const automations = await Airtable.getAutomations(table, baseID);
 
         for (let automation of automations) {
             let updatedFields;
@@ -65,7 +70,7 @@ const baseID = "app0jueDK8nMCrhQi";
                 updatedFields = { ...updatedFields, "Webhook - Highlevel": highlevelWebhook };
             }
 
-            await Airtable.updateContact(baseID, automation.recordID, updatedFields);
+            await Airtable.updateContact(baseID, table, automation.recordID, updatedFields);
         }
     } catch (error) {
         console.log(error.message);
