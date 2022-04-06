@@ -17,7 +17,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({ msg: "POST request only" }),
         };
     } else if (event.httpMethod === "POST") {
-        const { recordID, baseID, clientm, scheduledCall } = JSON.parse(event.body);
+        const { recordID, baseID, client, scheduledCall } = JSON.parse(event.body);
 
         let contact = await Airtable.getContact(baseID, "Prospects", recordID);
         const { additionalContactFields } = clients(client, contact);
