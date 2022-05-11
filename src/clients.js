@@ -19,7 +19,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
         {
             client: "Eco Tec",
             additionalContactFields: {
-                record_type_name: "Customer",
+                record_type_name: "Roof Coatings",
                 status_name: "Lead",
                 Research: contact["First Line"] || contact["FIRST LINE"] || "",
                 Service: "Roof Coatings",
