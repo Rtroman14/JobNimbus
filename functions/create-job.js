@@ -91,12 +91,12 @@ exports.handler = async (event) => {
                         console.log("Created new task:", task.title);
                     }
                 }
-            }
 
-            return {
-                statusCode: 200,
-                body: JSON.stringify({ jnJob }),
-            };
+                return {
+                    statusCode: 200,
+                    body: JSON.stringify({ jnJob }),
+                };
+            }
         } catch (error) {
             return {
                 statusCode: 500,

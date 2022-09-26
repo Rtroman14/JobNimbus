@@ -39,10 +39,10 @@ exports.handler = async (event) => {
         if (jnContact) {
             console.log("Created new contact:", jnContact.display_name);
 
-            await JobNimbus.createNote(jnContact.jnid, `Response: ${contact.Response} (Summa)`);
+            await JobNimbus.createNote(jnContact.jnid, `Response: ${contact.Response} (Peakleads)`);
 
             if ("Notes" in contact) {
-                await JobNimbus.createNote(jnContact.jnid, `${contact.Notes} (Summa)`);
+                await JobNimbus.createNote(jnContact.jnid, `${contact.Notes} (Peakleads)`);
             }
 
             if ("Scheduled Call" in contact) {
