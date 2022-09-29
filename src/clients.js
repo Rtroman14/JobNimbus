@@ -184,7 +184,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
             additionalContactFields: {
                 record_type_name: "Commercial Roofing",
                 status_name: "Lead",
-                sales_rep_name: "Rae Boyce",
+                sales_rep_name: "Admin Billing",
                 source_name: "Summa Media / Peak Leads",
             },
             additionalJobFields: {
