@@ -185,14 +185,14 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 record_type_name: "Commercial Roofing",
                 status_name: "Lead",
                 sales_rep_name: "Admin Billing",
-                source_name: "Summa Media / Peak Leads",
+                source_name: "Peak Leads",
             },
             additionalJobFields: {
                 name: `${contact.Street || contact["Last Name"] + " " + contact["First Name"]}`,
                 status_name: "Lead",
                 sales_rep_name: "Rae Boyce",
                 record_type_name: "",
-                source_name: "Summa Media / Peak Leads",
+                source_name: "Peak Leads",
                 location: 1,
             },
             scheduledCall: {

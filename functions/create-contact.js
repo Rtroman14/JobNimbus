@@ -4,11 +4,11 @@ const AirtableApi = require("../src/api/Airtable");
 const Airtable = new AirtableApi(process.env.AIRTABLE_API_KEY);
 
 const JobNimbusApi = require("../src/api/JobNimbus");
-
 const HelperApi = require("../src/Helper");
 const Helper = new HelperApi();
 
 const clients = require("../src/clients");
+const slackNotification = require("../src/slackNotification");
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -64,6 +64,11 @@ exports.handler = async (event) => {
                 const task = await JobNimbus.createTask(newTask);
                 console.log("Created new task:", task.title);
             }
+        } else {
+            await slackNotification(
+                `There was an error when creating a contact for client: *${account.Client}*`,
+                "Error creating contact in Jobnimbus"
+            );
         }
 
         return {
