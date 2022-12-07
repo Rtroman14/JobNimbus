@@ -66,10 +66,15 @@ exports.handler = async (event) => {
             }
         } else {
             await slackNotification(
-                `There was an error when creating a contact for client: *${account.Client}*`,
+                `There was an error when creating a contact for client: *${client}*`,
                 "Error creating contact in Jobnimbus"
             );
         }
+
+        await slackNotification(
+            `New lead pushed to JobNimbus for client: *${client}*. https://app.netlify.com/sites/jobnimbus/functions/create-contact`,
+            "New lead pushed to JobNimbus"
+        );
 
         return {
             statusCode: 200,
