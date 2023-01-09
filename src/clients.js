@@ -206,6 +206,33 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 typeName: "New Lead",
             },
         },
+        {
+            client: "Farha Roofing",
+            additionalContactFields: {
+                record_type_name: "Customer",
+                status_name: "Active",
+                // sales_rep_name: "Admin Billing",
+                source_name: "Marketing/Summa Campaign",
+            },
+            additionalJobFields: {
+                name: `${contact.Street || contact["Last Name"] + " " + contact["First Name"]}`,
+                status_name: "Lead",
+                sales_rep_name: "Rae Boyce",
+                record_type_name: "",
+                source_name: "Peak Leads",
+                location: 1,
+            },
+            scheduledCall: {
+                salesRep: "", // team member id who will be assigned to the task: New Lead - Follow Up
+                jobStatusName: "",
+            },
+            leadFollowUp: "38t41a", // team member id who will be assigned to the task: New Lead - Follow Up
+            team: [{ name: "Tony Jackson", id: "38t41a" }],
+            task: {
+                title: "New Lead",
+                typeName: "New Lead",
+            },
+        },
     ];
 
     return clients.find((clientObj) => clientObj.client === client);
