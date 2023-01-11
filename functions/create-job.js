@@ -8,6 +8,8 @@ const JobNimbusApi = require("../src/api/JobNimbus");
 const HelperApi = require("../src/Helper");
 const Helper = new HelperApi();
 
+const slackNotification = require("../src/slackNotification");
+
 const clients = require("../src/clients");
 
 exports.handler = async (event) => {
@@ -50,12 +52,31 @@ exports.handler = async (event) => {
 
             const jnContact = await JobNimbus.createContact(contactFields);
 
+            if (!jnContact) {
+                await slackNotification(
+                    `*ERROR* creating contact in JobNimbus\n*Client:* <https://airtable.com/${baseID}|${client}>`,
+                    "Error creating contact in Jobnimbus"
+                );
+
+                return {
+                    statusCode: 400,
+                    body: JSON.stringify({ message: "Error creating contact in Jobnimbus" }),
+                };
+            }
+
             if (jnContact) {
                 console.log("Created new contact:", jnContact.display_name);
 
                 // Create note if response
                 if ("Response" in contact) {
-                    await JobNimbus.createNote(jnContact.jnid, `Response: ${contact.Response}`);
+                    await JobNimbus.createNote(
+                        jnContact.jnid,
+                        `Response: ${contact.Response} (Peakleads)`
+                    );
+                }
+
+                if ("Notes" in contact) {
+                    await JobNimbus.createNote(jnContact.jnid, `${contact.Notes} (Peakleads)`);
                 }
 
                 // job fields
@@ -67,6 +88,18 @@ exports.handler = async (event) => {
                 }
 
                 const jnJob = await JobNimbus.createJob(jobFields);
+
+                if (!jnJob) {
+                    await slackNotification(
+                        `*ERROR* creating job in JobNimbus\n*Client:* <https://airtable.com/${baseID}|${client}>`,
+                        "Error creating job in Jobnimbus"
+                    );
+
+                    return {
+                        statusCode: 400,
+                        body: JSON.stringify({ message: "Error creating job in Jobnimbus" }),
+                    };
+                }
 
                 if (jnJob) {
                     console.log("Created new job:", jnJob.name);
