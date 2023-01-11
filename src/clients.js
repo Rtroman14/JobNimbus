@@ -220,7 +220,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
                 // sales_rep_name: "Rae Boyce",
                 record_type_name: "Commercial Replacement",
                 source_name: "Marketing/Summa Campaign",
-                location: 1,
+                // location: 1,
             },
             scheduledCall: {
                 salesRep: "", // team member id who will be assigned to the task: New Lead - Follow Up

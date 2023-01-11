@@ -54,7 +54,7 @@ exports.handler = async (event) => {
 
             if (!jnContact) {
                 await slackNotification(
-                    `*ERROR* creating contact in JobNimbus\n*Client:* <https://airtable.com/${baseID}|${client}>`,
+                    `*ERROR creating contact in JobNimbus*\n*Client:* <https://airtable.com/${baseID}|${client}>`,
                     "Error creating contact in Jobnimbus"
                 );
 
