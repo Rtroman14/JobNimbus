@@ -51,12 +51,12 @@ exports.handler = async (event) => {
             const jnContact = await JobNimbus.createContact(contactFields);
 
             if (jnContact) {
+                console.log("Created new contact:", jnContact.display_name);
+
                 // Create note if response
                 if ("Response" in contact) {
                     await JobNimbus.createNote(jnContact.jnid, `Response: ${contact.Response}`);
                 }
-
-                console.log("Created new contact:", jnContact.display_name);
 
                 // job fields
                 const baseJob = JobNimbus.baseJob(jnContact);
