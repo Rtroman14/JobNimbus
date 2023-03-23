@@ -71,11 +71,6 @@ exports.handler = async (event) => {
             );
         }
 
-        await slackNotification(
-            `New lead pushed to JobNimbus for client: *${client}*. https://app.netlify.com/sites/jobnimbus/functions/create-contact`,
-            "New lead pushed to JobNimbus"
-        );
-
         return {
             statusCode: 200,
             body: JSON.stringify({ jnContact }),
