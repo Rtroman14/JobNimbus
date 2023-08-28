@@ -9,6 +9,7 @@ const Helper = new HelperApi();
 
 const clients = require("../src/clients");
 const slackNotification = require("../src/slackNotification");
+const slackNoti = require("../src/slackNoti");
 
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
@@ -64,6 +65,13 @@ exports.handler = async (event) => {
                 const task = await JobNimbus.createTask(newTask);
                 console.log("Created new task:", task.title);
             }
+
+            // * notify LJ of created contact
+            await slackNoti(
+                `${client}'s JobNimbus`,
+                `${jnContact.display_name} was added to ${client}'s JobNimbus`,
+                "U015DDAJAAJ"
+            );
         } else {
             await slackNotification(
                 `There was an error when creating a contact for client: *${client}*`,
@@ -76,6 +84,12 @@ exports.handler = async (event) => {
             body: JSON.stringify({ jnContact }),
         };
     } else {
+        console.error("create-contact.js -->", error);
+        await slackNotification(
+            `There was an error when creating a contact https://app.netlify.com/sites/jobnimbus/functions/create-contact`,
+            "Error creating contact in Jobnimbus"
+        );
+
         return {
             statusCode: 500,
             body: JSON.stringify({ msg: "Error" }),

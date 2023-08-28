@@ -189,7 +189,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
             },
             additionalJobFields: {
                 name: `${contact.Street || contact["Last Name"] + " " + contact["First Name"]}`,
-                status_name: "Lead",
+                status_name: "Lead*",
                 sales_rep_name: "Rae Boyce",
                 record_type_name: "",
                 source_name: "Peak Leads",
