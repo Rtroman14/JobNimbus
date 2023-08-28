@@ -183,7 +183,7 @@ module.exports = (client, contact = { Research: "", Tag: "" }) => {
             client: "Integrity Pro Roofing",
             additionalContactFields: {
                 record_type_name: "Commercial Roofing",
-                status_name: "Lead",
+                status_name: "Lead*",
                 sales_rep_name: "Admin Billing",
                 source_name: "Peak Leads",
             },
