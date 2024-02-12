@@ -7,7 +7,7 @@ const JobNimbusApi = require("../src/api/JobNimbus");
 const HelperApi = require("../src/Helper");
 const Helper = new HelperApi();
 
-// IMPORTANT: must have "client" and "note" query params. "mention" is optional
+// IMPORTANT: must have "client" and "note" query params. "mention" is optional.
 exports.handler = async (event) => {
     if (event.httpMethod === "GET") {
         return {
