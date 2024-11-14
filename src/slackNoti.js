@@ -14,6 +14,13 @@ module.exports = async (username, text, channel) => {
         {
             text,
             username,
+            icon_emoji: ":moneybag:",
+            unfurl_links: true,
+            channel: "U035NKFJJ56",
+        },
+        {
+            text,
+            username,
             icon_emoji: ":warning:",
             unfurl_links: true,
             channel: "#error-alerts",

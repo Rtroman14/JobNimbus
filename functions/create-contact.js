@@ -70,7 +70,7 @@ exports.handler = async (event) => {
             await slackNoti(
                 `${client}'s JobNimbus`,
                 `${jnContact.display_name} was added to ${client}'s JobNimbus`,
-                "U015DDAJAAJ"
+                "U035NKFJJ56"
             );
         } else {
             await slackNotification(
